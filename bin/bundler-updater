@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/bundler/updater/cli'
+Bundler::Updater::CLI.start(ARGV)
