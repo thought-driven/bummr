@@ -1,3 +1,4 @@
+require 'bundler'
 require 'thor'
 
 module Bundler
@@ -17,6 +18,7 @@ module Bundler
       # see bundler/lib/bundler/cli/outdated.rb
       def outdated_gems_to_update
         @gems_to_update ||= begin
+          say 'Scanning for outdated gems...'
           gems_to_update = []
 
           all_gem_specs.each do |current_spec|
@@ -32,7 +34,7 @@ module Bundler
               end
             end
           end
-          gems_to_update
+          gems_to_update.sort
         end
       end
 
