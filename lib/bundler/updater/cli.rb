@@ -6,10 +6,12 @@ module Bundler
     class CLI < Thor::Group
       desc "Update outdated gems interactively"
       def update
-        say "No outdated gems to update" if outdated_gems_to_update.empty?
-        outdated_gems_to_update.each do |gem_name|
-          say "Updating #{gem_name}..."
-          `bundle update #{gem_name}`
+        if outdated_gems_to_update.empty?
+          say "No outdated gems to update"
+        else
+          say "Updating outdated gems:"
+          say outdated_gems_to_update.map { |g| "* #{g}" }.join("\n")
+          `bundle update #{outdated_gems_to_update.join(' ')}`
         end
       end
 
@@ -58,7 +60,7 @@ module Bundler
         current_dependencies = {}
         Bundler.ui.silence { Bundler.load.dependencies.each { |dep| current_dependencies[dep.name] = dep } }
         gemfile_specs, dependency_specs = current_specs.partition { |spec| current_dependencies.has_key? spec.name }
-        [gemfile_specs.sort_by(&:name), dependency_specs.sort_by(&:name)].flatten
+        [gemfile_specs, dependency_specs].flatten.sort_by(&:name)
       end
 
       def bundle_definition
