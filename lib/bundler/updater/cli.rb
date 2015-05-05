@@ -11,7 +11,21 @@ module Bundler
         else
           say "Updating outdated gems:"
           say outdated_gems_to_update.map { |g| "* #{g}" }.join("\n")
-          `bundle update #{outdated_gems_to_update.join(' ')}`
+          outdated_gems_to_update.each do |gem|
+            message = "#{gem[:name]}, {#{gem[:current_version]} -> #{gem[:spec_version]}}"
+            iterations = 2
+            say message
+            `bundle update #{gem[:name]}`
+
+            iterations.times do |index|
+              say "Testing: #{index+1} of #{iterations}"
+              `rake`
+            end
+
+            say "Passed the build #{iterations} times, committing"
+
+            `git commit -am "#{message}"`
+          end
         end
       end
 
@@ -31,12 +45,17 @@ module Bundler
               spec_version    = "#{active_spec.version}#{active_spec.git_version}"
               current_version = "#{current_spec.version}#{current_spec.git_version}"
 
-              if yes?("Update #{active_spec.name} from #{current_version} to #{spec_version}? (y/n)")
-                gems_to_update << active_spec.name
-              end
+              gem_to_update = { name: active_spec.name, spec_version: spec_version, current_version: current_version }
+
+              say "Adding #{gem_to_update[:name]} version: #{gem_to_update[:current_version]} to update list"
+
+              gems_to_update << gem_to_update
             end
           end
-          gems_to_update.sort
+
+          gems_to_update.sort_by do |gem|
+            gem[:name]
+          end
         end
       end
 
