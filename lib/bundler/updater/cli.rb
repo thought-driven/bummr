@@ -1,35 +1,156 @@
 require 'bundler'
 require 'thor'
+require 'open3'
+require 'colorize'
 
-module Bundler
+module Bumper
   module Updater
-    class CLI < Thor::Group
-      desc "Update outdated gems interactively"
-      def update
-        if outdated_gems_to_update.empty?
-          say "No outdated gems to update"
-        else
-          say "Updating outdated gems:"
-          say outdated_gems_to_update.map { |g| "* #{g}" }.join("\n")
-          outdated_gems_to_update.each do |gem|
-            message = "#{gem[:name]}, {#{gem[:current_version]} -> #{gem[:spec_version]}}"
-            iterations = 2
-            say message
-            `bundle update #{gem[:name]}`
+    class CLI < Thor
+      desc "check", "Run automated checks to see if bumper can be run"
+      def check
+        errors = []
 
-            iterations.times do |index|
-              say "Testing: #{index+1} of #{iterations}"
-              `rake`
+        if `git rev-parse --abbrev-ref HEAD` == "master\n"
+          message = "Bumper is not meant to be run on master"
+          say message.red
+          say "Please checkout a branch with 'git checkout -b update-gems'"
+          errors.push message
+        end
+
+        unless File.file? ".bumper-build.sh"
+          message = "You must have a file '.bumper-build.sh' which runs your build"
+          say message.red
+          errors.push message
+        end
+
+        unless File.directory? "log"
+          message = "There is no log directory or you are not in the root"
+          say message.red
+          errors.push message
+        end
+
+        unless `git diff master`.empty?
+          message = "Please make sure that `git diff master` returns empty"
+          say message.red
+          errors.push message
+        end
+
+        unless errors.any?
+          puts "Ready to run bumper.".green
+        end
+      end
+
+      desc "update", "Update outdated gems, run tests, bisect if tests fail"
+      def update
+        say "To run Bumper, you must:"
+        say "- Be in the root path of a clean git branch off of master"
+        say "- Have no commits or local changes"
+        say "- Have a file, '.bumper-build.sh' on master that runs your build"
+        say "- Have a 'log' directory, where we can place logs"
+        say "- Have your build configured to fail fast (recommended)"
+        say "- Have locked any Gem version that you don't wish to update in your Gemfile"
+        say "- It is recommended that you lock your versions of `ruby` and `rails in your Gemfile`"
+
+        if yes? "Are you ready to use Bumper? (y/n)"
+          check
+          `bundle`
+
+          if outdated_gems_to_update.empty?
+            say "No outdated gems to update".green
+          else
+            say "Updating outdated gems:"
+            say outdated_gems_to_update.map { |g| "* #{g}" }.join("\n")
+
+            outdated_gems_to_update.each_with_index do |gem, index|
+              message = "#{gem[:name]}, {#{gem[:current_version]} -> #{gem[:spec_version]}}"
+              say "Updating #{message}, #{index+1} of #{outdated_gems_to_update.count}"
+
+              system("bundle update --source #{gem[:name]}")
+              system("git commit -am '#{message}'")
             end
 
-            say "Passed the build #{iterations} times, committing"
+            say "Choose which gems to update"
+            system("git rebase -i master")
+          end
 
-            `git commit -am "#{message}"`
+          test
+        else
+          say "Thank you!".green
+        end
+      end
+
+      desc "test", "Test for a successful build and bisect if necesssary"
+      def test
+        say "Testing the build!".green
+        if system("./.bumper-build.sh") == false
+          `bundle`
+          bisect
+        else
+          say "Passed the build!".green
+          say "See log/bundler-updater.log for details".yellow
+          system("cat log/bundler-updater.log")
+        end
+      end
+
+      desc "bisect", "Find the bad commit, remove it, test again"
+      def bisect
+        say "Bad commits found! Bisecting...".red
+        log "Bad commits found: #{Time.now}"
+
+        system("git bisect start head master")
+
+        Open3.popen2e("git bisect run ./.bumper-build.sh") do |std_in, std_out_err|
+          while line = std_out_err.gets
+            puts line
+
+            sha = ""
+            error = ""
+
+            sha_regex = Regexp::new("(.*) is the first bad commit\n").match(line)
+            unless sha_regex.nil?
+              sha = sha_regex[1]
+            end
+
+            if /[Ee]rror/.match(line)
+              error = line
+            end
+
+            if line == "bisect run success\n"
+              remove_commit(sha, error)
+            end
           end
         end
       end
 
+      desc "remove_commit", "After bisecting, remove the current (bad) commit"
+      def remove_commit(sha, error)
+        commit_message = `git log --pretty=format:'%s' -n 1 #{sha}`
+        message = "Could not apply: #{commit_message}, #{sha}, Error: #{error}"
+
+        say message.red
+        log message
+
+        say "Resetting..."
+        system("git bisect reset")
+
+        say "Removing commit..."
+        if system("git rebase -X ours --onto #{sha}^ #{sha}")
+          say "Successfully removed bad commit...".green
+          say "Re-testing build...".green
+          test
+        else
+          say message.red
+          say "Could not automatically remove this commit!".red
+          say "Please resolve conflicts, then 'git rebase --continue'."
+          say "Run 'bumper test' again once the rebase is complete"
+        end
+      end
+
       private
+
+      def log(message)
+        system("touch log/bumper.log && echo '#{message}' >> log/bumper.log")
+      end
 
       # see bundler/lib/bundler/cli/outdated.rb
       def outdated_gems_to_update
