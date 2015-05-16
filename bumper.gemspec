@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bundler/updater/version'
+require 'bumper/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "bundler-updater"
-  spec.version       = Bundler::Updater::VERSION
-  spec.authors       = ["Ryan Sonnek"]
-  spec.email         = ["ryan@codecrate.com"]
+  spec.name          = "bumper"
+  spec.version       = Bumper::VERSION
+  spec.authors       = ["Lee Pender"]
+  spec.email         = ["lpender@gmail.com"]
   spec.summary       = %q{Helper script to intelligently update your Gemfile}
-  spec.description   = %q{Don't update *all* of your gems at once.}
+  spec.description   = %q{See Readme}
   spec.homepage      = ""
   spec.license       = "MIT"
 
