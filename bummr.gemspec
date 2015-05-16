@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'bumper/version'
+require 'bummr/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "bumper"
-  spec.version       = Bumper::VERSION
+  spec.name          = "bummr"
+  spec.version       = Bummr::VERSION
   spec.authors       = ["Lee Pender"]
   spec.email         = ["lpender@gmail.com"]
   spec.summary       = %q{Helper script to intelligently update your Gemfile}
