@@ -6,7 +6,7 @@ require 'colorize'
 module Bummr
   class CLI < Thor
     desc "check", "Run automated checks to see if bummr can be run"
-    def check
+    def check(fullcheck=true)
       errors = []
 
       if `git rev-parse --abbrev-ref HEAD` == "master\n"
@@ -16,7 +16,7 @@ module Bummr
         errors.push message
       end
 
-      unless File.file? ".bummr-build.sh"
+      unless File.file?(".bummr-build.sh") && File.executable?(".bummr-build.sh")
         message = "You must have a file '.bummr-build.sh' which runs your build"
         say message.red
         errors.push message
@@ -28,13 +28,17 @@ module Bummr
         errors.push message
       end
 
-      unless `git diff master`.empty?
-        message = "Please make sure that `git diff master` returns empty"
-        say message.red
-        errors.push message
+      if fullcheck == true
+        unless `git diff master`.empty?
+          message = "Please make sure that `git diff master` returns empty"
+          say message.red
+          errors.push message
+        end
       end
 
-      unless errors.any?
+      if errors.any?
+        exit 0
+      else
         puts "Ready to run bummr.".green
       end
     end
@@ -80,7 +84,9 @@ module Bummr
 
     desc "test", "Test for a successful build and bisect if necesssary"
     def test
+      check(false)
       say "Testing the build!".green
+
       if system("./.bummr-build.sh") == false
         `bundle`
         bisect
@@ -93,6 +99,7 @@ module Bummr
 
     desc "bisect", "Find the bad commit, remove it, test again"
     def bisect
+      check(false)
       say "Bad commits found! Bisecting...".red
       log "Bad commits found: #{Time.now}"
 
