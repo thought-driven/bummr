@@ -2,6 +2,7 @@ require 'bundler'
 require 'thor'
 require 'open3'
 require 'colorize'
+require 'pry'
 
 module Bumper
   class CLI < Thor
@@ -102,46 +103,15 @@ module Bumper
         while line = std_out_err.gets
           puts line
 
-          sha = ""
-          error = ""
-
           sha_regex = Regexp::new("(.*) is the first bad commit\n").match(line)
           unless sha_regex.nil?
             sha = sha_regex[1]
           end
 
-          if /[Ee]rror/.match(line)
-            error = line
-          end
-
           if line == "bisect run success\n"
-            remove_commit(sha, error)
+            remove_commit(sha)
           end
         end
-      end
-    end
-
-    desc "remove_commit", "After bisecting, remove the current (bad) commit"
-    def remove_commit(sha, error)
-      commit_message = `git log --pretty=format:'%s' -n 1 #{sha}`
-      message = "Could not apply: #{commit_message}, #{sha}, Error: #{error}"
-
-      say message.red
-      log message
-
-      say "Resetting..."
-      system("git bisect reset")
-
-      say "Removing commit..."
-      if system("git rebase -X ours --onto #{sha}^ #{sha}")
-        say "Successfully removed bad commit...".green
-        say "Re-testing build...".green
-        test
-      else
-        say message.red
-        say "Could not automatically remove this commit!".red
-        say "Please resolve conflicts, then 'git rebase --continue'."
-        say "Run 'bumper test' again once the rebase is complete"
       end
     end
 
@@ -176,6 +146,29 @@ module Bumper
         gems_to_update.sort_by do |gem|
           gem[:name]
         end
+      end
+    end
+
+    def remove_commit(sha)
+      commit_message = `git log --pretty=format:'%s' -n 1 #{sha}`
+      message = "Could not apply: #{commit_message}, #{sha}"
+
+      say message.red
+      log message
+
+      say "Resetting..."
+      system("git bisect reset")
+
+      say "Removing commit..."
+      if system("git rebase -X ours --onto #{sha}^ #{sha}")
+        say "Successfully removed bad commit...".green
+        say "Re-testing build...".green
+        test
+      else
+        say message.red
+        say "Could not automatically remove this commit!".red
+        say "Please resolve conflicts, then 'git rebase --continue'."
+        say "Run 'bumper test' again once the rebase is complete"
       end
     end
 
