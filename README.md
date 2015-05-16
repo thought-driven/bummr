@@ -1,18 +1,18 @@
-# Bumper
-The *Bumper* gem allows you to automatically update all gems which pass your
+# Bummr
+The *Bummr* gem allows you to automatically update all gems which pass your
 build in separate commits.
 
 ## Installation
 
 ```bash
-$ gem install bumper
+$ gem install bummr
 ```
 
-Add a file called `.bumper-build.sh` to the root of your git directory.
+Add a file called `.bummr-build.sh` to the root of your git directory.
 
-Here is a suggested `.bumper-build.sh` which will `bundle exec rake` 4 times:
+Here is a suggested `.bummr-build.sh` which will `bundle exec rake` 4 times:
 
-`.bumper-build.sh`
+`.bummr-build.sh`
 
 ```bash
 #!/bin/sh
@@ -31,14 +31,14 @@ done
 exit $EXIT
 ```
 
-Commit this file and merge it to master before running `bumper update`!
+Commit this file and merge it to master before running `bummr update`!
 
 ## Usage:
 
 - Create a new, clean branch off of master.
-- Run `bumper update`
+- Run `bummr update`
 
-##### `bumper update`
+##### `bummr update`
 
 - Finds all your outdated gems
 - Updates them each individually, using `bundle update --source #{gemname}`
@@ -47,32 +47,32 @@ Commit this file and merge it to master before running `bumper update`!
 `gemname, {0.0.1 -> 0.0.2}`
 
 - Runs `git rebase -i master` to allow you the chance to review and make changes.
-- Runs `bumper test`
+- Runs `bummr test`
 
-##### `bumper test`
+##### `bummr test`
 
-- Runs your build script (`.bumper-build.sh`).
-- If there is a failure, runs `bumper bisect`.
+- Runs your build script (`.bummr-build.sh`).
+- If there is a failure, runs `bummr bisect`.
 
-##### `bumper bisect`
+##### `bummr bisect`
 
 - `git bisect`s against master.
 - Finds the bad commit and attempts to remove it.
-- Logs the bad commit in `log/bumper.log`.
-- Runs `bumper test`
+- Logs the bad commit in `log/bummr.log`.
+- Runs `bummr test`
 
 ## Notes
 
 - Once the build passes, you can push your branch and create a pull-request!
-- You may wish to `tail -f log/bumper.log` in a separate terminal window so you
+- You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.
-- Bumper may not be able to remove the bad commit due to a merge conflict, in 
+- Bummr may not be able to remove the bad commit due to a merge conflict, in 
   which case you will have to remove it manually, continue the rebase, and 
-  run `bumper test` again.
+  run `bummr test` again.
 
 ## Contributing
 
-1. Fork it ( https://github.com/lpender/bumper/fork )
+1. Fork it ( https://github.com/lpender/bummr/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -80,7 +80,7 @@ Commit this file and merge it to master before running `bumper update`!
 
 ## Wanted
 
-Here are some things I'd love to add to Bumper:
+Here are some things I'd love to add to Bummr:
 
 - Test coverage.
 - Configuration options (for test script path, name of master branch, etc)

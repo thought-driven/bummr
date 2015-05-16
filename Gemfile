@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in bundler-updater.gemspec
+# Specify your gem's dependencies in bummr.gemspec
 gemspec

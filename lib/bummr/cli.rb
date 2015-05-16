@@ -2,23 +2,22 @@ require 'bundler'
 require 'thor'
 require 'open3'
 require 'colorize'
-require 'pry'
 
-module Bumper
+module Bummr
   class CLI < Thor
-    desc "check", "Run automated checks to see if bumper can be run"
+    desc "check", "Run automated checks to see if bummr can be run"
     def check
       errors = []
 
       if `git rev-parse --abbrev-ref HEAD` == "master\n"
-        message = "Bumper is not meant to be run on master"
+        message = "Bummr is not meant to be run on master"
         say message.red
         say "Please checkout a branch with 'git checkout -b update-gems'"
         errors.push message
       end
 
-      unless File.file? ".bumper-build.sh"
-        message = "You must have a file '.bumper-build.sh' which runs your build"
+      unless File.file? ".bummr-build.sh"
+        message = "You must have a file '.bummr-build.sh' which runs your build"
         say message.red
         errors.push message
       end
@@ -36,22 +35,22 @@ module Bumper
       end
 
       unless errors.any?
-        puts "Ready to run bumper.".green
+        puts "Ready to run bummr.".green
       end
     end
 
     desc "update", "Update outdated gems, run tests, bisect if tests fail"
     def update
-      say "To run Bumper, you must:"
+      say "To run Bummr, you must:"
       say "- Be in the root path of a clean git branch off of master"
       say "- Have no commits or local changes"
-      say "- Have a file, '.bumper-build.sh' on master that runs your build"
+      say "- Have a file, '.bummr-build.sh' on master that runs your build"
       say "- Have a 'log' directory, where we can place logs"
       say "- Have your build configured to fail fast (recommended)"
       say "- Have locked any Gem version that you don't wish to update in your Gemfile"
       say "- It is recommended that you lock your versions of `ruby` and `rails in your Gemfile`"
 
-      if yes? "Are you ready to use Bumper? (y/n)"
+      if yes? "Are you ready to use Bummr? (y/n)"
         check
         `bundle`
 
@@ -82,13 +81,13 @@ module Bumper
     desc "test", "Test for a successful build and bisect if necesssary"
     def test
       say "Testing the build!".green
-      if system("./.bumper-build.sh") == false
+      if system("./.bummr-build.sh") == false
         `bundle`
         bisect
       else
         say "Passed the build!".green
-        say "See log/bundler-updater.log for details".yellow
-        system("cat log/bundler-updater.log")
+        say "See log/bummr.log for details".yellow
+        system("cat log/bummr.log")
       end
     end
 
@@ -99,7 +98,7 @@ module Bumper
 
       system("git bisect start head master")
 
-      Open3.popen2e("git bisect run ./.bumper-build.sh") do |std_in, std_out_err|
+      Open3.popen2e("git bisect run ./.bummr-build.sh") do |std_in, std_out_err|
         while line = std_out_err.gets
           puts line
 
@@ -118,7 +117,7 @@ module Bumper
     private
 
     def log(message)
-      system("touch log/bumper.log && echo '#{message}' >> log/bumper.log")
+      system("touch log/bummr.log && echo '#{message}' >> log/bummr.log")
     end
 
     # see bundler/lib/bundler/cli/outdated.rb
@@ -168,7 +167,7 @@ module Bumper
         say message.red
         say "Could not automatically remove this commit!".red
         say "Please resolve conflicts, then 'git rebase --continue'."
-        say "Run 'bumper test' again once the rebase is complete"
+        say "Run 'bummr test' again once the rebase is complete"
       end
     end
 
