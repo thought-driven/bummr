@@ -1,6 +1,10 @@
 # Bummr
+
+Updating Gems one by one is a Bummr: especially when one gem causes your build
+to fail.
+
 The *Bummr* gem allows you to automatically update all gems which pass your
-build in separate commits.
+build in separate commits, and logs the name and sha of each gem that fails.
 
 ## Installation
 
@@ -66,8 +70,8 @@ Commit this file and merge it to master before running `bummr update`!
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.
-- Bummr may not be able to remove the bad commit due to a merge conflict, in 
-  which case you will have to remove it manually, continue the rebase, and 
+- Bummr may not be able to remove the bad commit due to a merge conflict, in
+  which case you will have to remove it manually, continue the rebase, and
   run `bummr test` again.
 
 ## Contributing
