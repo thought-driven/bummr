@@ -2,6 +2,37 @@
 The *Bumper* gem allows you to automatically update all gems which pass your
 build in separate commits.
 
+## Installation
+
+```bash
+$ gem install bumper
+```
+
+Add a file called `.bumper-build.sh` to the root of your git directory.
+
+Here is a suggested `.bumper-build.sh` which will `bundle exec rake` 4 times:
+
+`.bumper-build.sh`
+
+```bash
+#!/bin/sh
+MAX_TRIES=4
+COUNT=0
+EXIT=0
+
+while [ $COUNT -lt $MAX_TRIES ] && [ $EXIT -eq 0 ]; do
+  git log --pretty=format:'%s' -n 1
+  echo "\nRunning test suite... $COUNT of $MAX_TRIES"
+  bundle exec rake
+  let EXIT=$?
+  let COUNT=COUNT+1
+done
+
+exit $EXIT
+```
+
+Commit this file and merge it to master before running `bumper update`!
+
 ## Usage:
 
 - Create a new, clean branch off of master.
@@ -38,37 +69,6 @@ build in separate commits.
 - Bumper may not be able to remove the bad commit due to a merge conflict, in 
   which case you will have to remove it manually, continue the rebase, and 
   run `bumper test` again.
-
-## Installation
-
-```bash
-$ gem install bumper
-```
-
-Add a file called `.bumper-build.sh` to the root of your git directory.
-
-Here is a suggested `.bumper-build.sh` which will `bundle exec rake` 4 times:
-
-`.bumper-build.sh`
-
-```bash
-#!/bin/sh
-MAX_TRIES=4
-COUNT=0
-EXIT=0
-
-while [ $COUNT -lt $MAX_TRIES ] && [ $EXIT -eq 0 ]; do
-  git log --pretty=format:'%s' -n 1
-  echo "\nRunning test suite... $COUNT of $MAX_TRIES"
-  bundle exec rake
-  let EXIT=$?
-  let COUNT=COUNT+1
-done
-
-exit $EXIT
-```
-
-Commit this file and merge it to master before running `bumper update`!
 
 ## Contributing
 
