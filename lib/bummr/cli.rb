@@ -104,7 +104,6 @@ module Bummr
     def bisect
       check(false)
       say "Bad commits found! Bisecting...".red
-      log "Bad commits found: #{Time.now}"
 
       system("git bisect start head master")
 
