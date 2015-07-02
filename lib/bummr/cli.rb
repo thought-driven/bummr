@@ -87,6 +87,7 @@ module Bummr
     desc "test", "Test for a successful build and bisect if necesssary"
     def test
       check(false)
+      `bundle`
       say "Testing the build!".green
 
       if system("./.bummr-build.sh") == false
