@@ -74,9 +74,11 @@ module Bummr
 
           say "Choose which gems to update"
           system("git rebase -i master")
-        end
 
-        test
+          log "Running Update + #{Time.now}"
+
+          test
+        end
       else
         say "Thank you!".green
       end
