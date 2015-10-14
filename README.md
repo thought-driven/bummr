@@ -46,7 +46,7 @@ Commit this file and merge it to master before running `bummr update`!
 - Create a new, clean branch off of master.
 - Run `bummr update`
 - `Bummr` will give you the opportunity to interactively rebase your branch before running the tests.
-- If your build fails, `bummr` will attempt to automatically remove breaking commits (gem updates) until the build passes.
+- If your build fails, `bummr` will attempt to automatically remove breaking commits, until the build passes.
 - Once your build passes, open a pull-request and merge it to your `master` branch.
 
 ##### `bummr update`
