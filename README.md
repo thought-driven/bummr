@@ -16,7 +16,9 @@ $ gem install bummr
 
 Add a file called `.bummr-build.sh` to the root of your git directory.
 
-Here is a suggested `.bummr-build.sh` which will `bundle exec rake` 4 times:
+Here is a suggested `.bummr-build.sh` which will use `bundle exec rake` to test your build 4 times:
+
+Set `MAX_TRIES` to `1` if you only want to run it once.
 
 `.bummr-build.sh`
 
@@ -43,6 +45,9 @@ Commit this file and merge it to master before running `bummr update`!
 
 - Create a new, clean branch off of master.
 - Run `bummr update`
+- `Bummr` will give you the opportunity to interactively rebase your branch before running the tests. Remove any gems you are certain will break and then close the window.
+- If your build fails, `bummr` will attempt to automatically remove and log the commit that broke it.  Look in `log/bummr.log` for a log of any errors.
+- If your build passes, open a pull-request and merge it to your `master` branch.
 
 ##### `bummr update`
 
