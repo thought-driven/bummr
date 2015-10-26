@@ -10,43 +10,43 @@ build in separate commits, and logs the name and sha of each gem that fails.
 
 ## Installation
 
+#### 1. Install Gem
+
 ```bash
 $ gem install bummr
 ```
 
-Add a file called `.bummr-build.sh` to the root of your git directory.
+#### 2. Merge `.bummr-build.sh`
 
-Here is a suggested `.bummr-build.sh` which will use `bundle exec rake` to test your build 4 times:
+Add a file called `.bummr-build.sh` to the root of your git directory.
+`
 
 `.bummr-build.sh`
 
 ```bash
 #!/bin/sh
-MAX_TRIES=4
-COUNT=0
-EXIT=0
-
-while [ $COUNT -lt $MAX_TRIES ] && [ $EXIT -eq 0 ]; do
-  git log --pretty=format:'%s' -n 1
-  echo "\nRunning test suite... $COUNT of $MAX_TRIES"
-  bundle exec rake
-  let EXIT=$?
-  let COUNT=COUNT+1
-done
-
-exit $EXIT
+bundle exec rake
 ```
 
-Set `MAX_TRIES` to `1` if you only want to run it once.
+Commit it and merge it to master.
 
-Commit this file and merge it to master before running `bummr update`!
+`.bummr-build.sh` is be used to to test your build. If it exits with `0`, 
+it is assumed that the gem updates were performed correctly.
+
+If you prefer, you can [run the build more than once]
+(https://gist.github.com/lpender/f6b55e7f3649db3b6df5), to protect against 
+brittle tests and false positives.
 
 ## Usage:
 
-- Create a new, clean branch off of master.
-- Run `bummr update`
-- `Bummr` will give you the opportunity to interactively rebase your branch before running the tests.
-- If your build fails, `bummr` will attempt to automatically remove breaking commits, until the build passes.
+- After installing, create a new, clean branch off of master.
+- Run `bummr update`.
+- `Bummr` will give you the opportunity to interactively rebase your branch 
+  before running the tests. Delete any commits for gems which you don't want
+  to update and close the file.
+- At this point, you can leave `bummr` to work for some time.
+- If your build fails, `bummr` will attempt to automatically remove breaking 
+  commits, until the build passes, logging any failures to `/log/bummr.log`.
 - Once your build passes, open a pull-request and merge it to your `master` branch.
 
 ##### `bummr update`
@@ -70,10 +70,13 @@ Commit this file and merge it to master before running `bummr update`!
 - `git bisect`s against master.
 - Finds the bad commit and attempts to remove it.
 - Logs the bad commit in `log/bummr.log`.
-- Runs `bummr test`
+- Runs `bummr test`.
 
 ## Notes
 
+- Bummr assumes you have good test coverage and follow a (pull-request workflow)
+  [https://help.github.com/articles/using-pull-requests/] with `master` as your
+  default branch.
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.
