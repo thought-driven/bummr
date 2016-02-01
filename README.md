@@ -74,8 +74,8 @@ brittle tests and false positives.
 
 ## Notes
 
-- Bummr assumes you have good test coverage and follow a (pull-request workflow)
-  [https://help.github.com/articles/using-pull-requests/] with `master` as your
+- Bummr assumes you have good test coverage and follow a [pull-request workflow]
+  (https://help.github.com/articles/using-pull-requests/) with `master` as your
   default branch.
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
