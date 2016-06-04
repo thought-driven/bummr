@@ -24,6 +24,22 @@ module Bummr
         errors.push message
       end
 
+      status = `git status`
+
+      if status.index 'are currently'
+        message = ""
+
+        if status.index 'rebasing'
+          message += "You are already rebasing. "
+        else if status.index 'bisecting'
+          message += "You are already bisecting. "
+        end
+
+        message += "Make sure `git status` is clean"
+        say message.red
+        errors.push message
+      end
+
       if fullcheck == true
         unless `git diff master`.empty?
           message = "Please make sure that `git diff master` returns empty"
@@ -66,6 +82,7 @@ module Bummr
             say "Updating #{message}, #{index+1} of #{outdated_gems_to_update.count}"
 
             system("bundle update --source #{gem[:name]}")
+            system("bundle list | grep #{gem[:name]}")
             system("git commit -am '#{message}'")
           end
 
@@ -88,7 +105,6 @@ module Bummr
       say "Testing the build!".green
 
       if system(TEST_COMMAND) == false
-        `bundle`
         bisect
       else
         say "Passed the build!".green
@@ -104,7 +120,7 @@ module Bummr
 
       system("git bisect start head master")
 
-      Open3.popen2e("git bisect run ./.bummr-build.sh") do |std_in, std_out_err|
+      Open3.popen2e("git bisect run #{TEST_COMMAND}") do |std_in, std_out_err|
         while line = std_out_err.gets
           puts line
 
