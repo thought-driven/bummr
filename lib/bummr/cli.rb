@@ -31,7 +31,7 @@ module Bummr
 
         if status.index 'rebasing'
           message += "You are already rebasing. "
-        else if status.index 'bisecting'
+        elsif status.index 'bisecting'
           message += "You are already bisecting. "
         end
 
@@ -65,7 +65,6 @@ module Bummr
       say "- Have locked any Gem version that you don't wish to update in your Gemfile"
       say "- It is recommended that you lock your versions of `ruby` and `rails in your Gemfile`"
       say "Your test command is: '#{TEST_COMMAND}'"
-      say "Customize this command by setting an environment variable for BUMMR_TEST"
 
       if yes? "Are you ready to use Bummr? (y/n)"
         check
