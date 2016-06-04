@@ -65,7 +65,7 @@ module Bummr
           say outdated_gems_to_update.map { |g| "* #{g}" }.join("\n")
 
           outdated_gems_to_update.each_with_index do |gem, index|
-            message = "#{gem[:name]}, {#{gem[:current_version]} -> #{gem[:spec_version]}}"
+            message = "Update #{gem[:name]} to version #{gem[:spec_version]}"
             say "Updating #{message}, #{index+1} of #{outdated_gems_to_update.count}"
 
             system("bundle update --source #{gem[:name]}")
