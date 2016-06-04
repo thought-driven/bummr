@@ -10,28 +10,13 @@ build in separate commits, and logs the name and sha of each gem that fails.
 
 ## Installation
 
-#### 1. Install Gem
-
 ```bash
 $ gem install bummr
 ```
 
-#### 2. Merge `.bummr-build.sh`
+By default, bummr will use `bundle exec rake` to run your build.
 
-Add a file called `.bummr-build.sh` to the root of your git directory.
-`
-
-`.bummr-build.sh`
-
-```bash
-#!/bin/sh
-bundle exec rake
-```
-
-Commit it and merge it to master.
-
-`.bummr-build.sh` is be used to to test your build. If it exits with `0`,
-it is assumed that the gem updates were performed correctly.
+To customize your build command, `export BUMMR_TEST="./bummr-build.sh"`
 
 If you prefer, you can [run the build more than once]
 (https://gist.github.com/lpender/f6b55e7f3649db3b6df5), to protect against
