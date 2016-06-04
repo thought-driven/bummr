@@ -40,7 +40,7 @@ brittle tests and false positives.
 - Updates them each individually, using `bundle update --source #{gemname}`
 - Commits each gem update separately, with a commit message like:
 
-`gemname, {0.0.1 -> 0.0.2}`
+`Update gemname from 0.0.1 to 0.0.2`
 
 - Runs `git rebase -i master` to allow you the chance to review and make changes.
 - Runs `bummr test`
