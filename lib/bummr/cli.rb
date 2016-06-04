@@ -77,12 +77,22 @@ module Bummr
           say outdated_gems_to_update.map { |g| "* #{g}" }.join("\n")
 
           outdated_gems_to_update.each_with_index do |gem, index|
-            message = "Update #{gem[:name]} to version #{gem[:spec_version]}"
-            say "Updating #{message}, #{index+1} of #{outdated_gems_to_update.count}"
+            say "Updating #{gem[:name]}: #{index+1} of #{outdated_gems_to_update.count}"
 
             system("bundle update --source #{gem[:name]}")
-            system("bundle list | grep #{gem[:name]}")
-            system("git commit -am '#{message}'")
+            updated_version = `bundle list | grep #{gem[:name]}`.split('(')[1].split(')')[0]
+            message = "Update #{gem[:name]} from #{gem[:current_version]} to #{updated_version}"
+
+            if gem[:spec_version] != updated_version
+              log("#{gem[:name]} not updated from #{gem[:current_version]} to latest: #{gem[:spec_version]}")
+            end
+
+            unless gem[:current_version] == updated_version
+              say message.green
+              system("git commit -am '#{message}'")
+            else
+              log("#{gem[:name]} not updated")
+            end
           end
 
           say "Choose which gems to update"
@@ -138,6 +148,7 @@ module Bummr
     private
 
     def log(message)
+      say message
       system("touch log/bummr.log && echo '#{message}' >> log/bummr.log")
     end
 
