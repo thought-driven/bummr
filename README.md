@@ -72,6 +72,7 @@ brittle tests and false positives.
 ## Developing
 
 `rake build` to build locally
+
 `gem install --local ~/dev/mine/bummr/pkg/bummr-0.0.X.gem` in the app you wish to use it with.
 
 ## Wanted
