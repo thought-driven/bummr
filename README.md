@@ -1,6 +1,6 @@
 # Bummr
 
-Updating Gems one by one is a Bummr: especially when one gem causes your build
+Updating Gems one by one is a bumm(e)r: especially when one gem causes your build
 to fail.
 
 Gems should be updated in [separate commits](http://ilikestuffblog.com/2012/07/01/you-should-update-one-gem-at-a-time-with-bundler-heres-how/).
