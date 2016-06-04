@@ -5,8 +5,11 @@ to fail.
 
 Gems should be updated in [separate commits](http://ilikestuffblog.com/2012/07/01/you-should-update-one-gem-at-a-time-with-bundler-heres-how/).
 
-The *Bummr* gem allows you to automatically update all gems which pass your
+The bummr gem allows you to automatically update all gems which pass your
 build in separate commits, and logs the name and sha of each gem that fails.
+
+Bummr assumes you have good test coverage and follow a [pull-request workflow] (https://help.github.com/articles/using-pull-requests/) with `master` as your
+default branch.
 
 ## Installation
 
@@ -24,8 +27,12 @@ brittle tests and false positives.
 
 ## Usage:
 
+Using bummr can take anywhere from a few minutes to several hours, depending 
+on the number of outdated gems you have and the number of tests in your test
+suite.
+
 - After installing, create a new, clean branch off of master.
-- Run `bummr update`.
+- Run `bummr update`. This may take some time.
 - `Bummr` will give you the opportunity to interactively rebase your branch
   before running the tests. Delete any commits for gems which you don't want
   to update and close the file.
