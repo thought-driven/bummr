@@ -30,22 +30,22 @@ bundle exec rake
 
 Commit it and merge it to master.
 
-`.bummr-build.sh` is be used to to test your build. If it exits with `0`, 
+`.bummr-build.sh` is be used to to test your build. If it exits with `0`,
 it is assumed that the gem updates were performed correctly.
 
 If you prefer, you can [run the build more than once]
-(https://gist.github.com/lpender/f6b55e7f3649db3b6df5), to protect against 
+(https://gist.github.com/lpender/f6b55e7f3649db3b6df5), to protect against
 brittle tests and false positives.
 
 ## Usage:
 
 - After installing, create a new, clean branch off of master.
 - Run `bummr update`.
-- `Bummr` will give you the opportunity to interactively rebase your branch 
+- `Bummr` will give you the opportunity to interactively rebase your branch
   before running the tests. Delete any commits for gems which you don't want
   to update and close the file.
 - At this point, you can leave `bummr` to work for some time.
-- If your build fails, `bummr` will attempt to automatically remove breaking 
+- If your build fails, `bummr` will attempt to automatically remove breaking
   commits, until the build passes, logging any failures to `/log/bummr.log`.
 - Once your build passes, open a pull-request and merge it to your `master` branch.
 
@@ -84,13 +84,10 @@ brittle tests and false positives.
   which case you will have to remove it manually, continue the rebase, and
   run `bummr test` again.
 
-## Contributing
+## Developing
 
-1. Fork it ( https://github.com/lpender/bummr/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+`rake build` to build locally
+`gem install --local ~/dev/mine/bummr/pkg/bummr-0.0.1.gem`
 
 ## Wanted
 
