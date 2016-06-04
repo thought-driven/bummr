@@ -8,10 +8,10 @@ module Bummr
     desc "check", "Run automated checks to see if bummr can be run"
     def check(fullcheck=true)
       errors = []
-
+      
       if `git rev-parse --abbrev-ref HEAD` == "master\n"
         message = "Bummr is not meant to be run on master"
-        say message.red
+        warn message.red
         say "Please checkout a branch with 'git checkout -b update-gems'"
         errors.push message
       end
