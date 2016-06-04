@@ -3,6 +3,8 @@ require 'thor'
 require 'open3'
 require 'colorize'
 
+TEST_COMMAND = ENV["BUMMR_TEST"] || "bundle exec rake"
+
 module Bummr
   class CLI < Thor
     desc "check", "Run automated checks to see if bummr can be run"
@@ -13,12 +15,6 @@ module Bummr
         message = "Bummr is not meant to be run on master"
         say message.red
         say "Please checkout a branch with 'git checkout -b update-gems'"
-        errors.push message
-      end
-
-      unless File.file?(".bummr-build.sh") && File.executable?(".bummr-build.sh")
-        message = "You must have a file '.bummr-build.sh' which runs your build"
-        say message.red
         errors.push message
       end
 
@@ -48,11 +44,12 @@ module Bummr
       say "To run Bummr, you must:"
       say "- Be in the root path of a clean git branch off of master"
       say "- Have no commits or local changes"
-      say "- Have a file, '.bummr-build.sh' on master that runs your build"
       say "- Have a 'log' directory, where we can place logs"
       say "- Have your build configured to fail fast (recommended)"
       say "- Have locked any Gem version that you don't wish to update in your Gemfile"
       say "- It is recommended that you lock your versions of `ruby` and `rails in your Gemfile`"
+      say "Your test command is: '#{TEST_COMMAND}'"
+      say "Customize this command by setting an environment variable for BUMMR_TEST"
 
       if yes? "Are you ready to use Bummr? (y/n)"
         check
@@ -90,7 +87,7 @@ module Bummr
       `bundle`
       say "Testing the build!".green
 
-      if system("./.bummr-build.sh") == false
+      if system(TEST_COMMAND) == false
         `bundle`
         bisect
       else
