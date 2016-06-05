@@ -70,24 +70,23 @@ module Bummr
         check
         `bundle`
 
-        if outdated_gems_to_update.empty?
+        if outdated_gems.empty?
           say "No outdated gems to update".green
         else
-          say "Updating outdated gems:"
-          say outdated_gems_to_update.map { |g| "* #{g}" }.join("\n")
+          say "Updating outdated gems".green
 
-          outdated_gems_to_update.each_with_index do |gem, index|
-            say "Updating #{gem[:name]}: #{index+1} of #{outdated_gems_to_update.count}"
+          outdated_gems.each_with_index do |gem, index|
+            say "Updating #{gem[:name]}: #{index+1} of #{outdated_gems.count}"
 
             system("bundle update --source #{gem[:name]}")
             updated_version = `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
-            message = "Update #{gem[:name]} from #{gem[:current_version]} to #{updated_version}"
+            message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
 
-            if gem[:spec_version] != updated_version
-              log("#{gem[:name]} not updated from #{gem[:current_version]} to latest: #{gem[:spec_version]}")
+            if gem[:newest] != updated_version
+              log("#{gem[:name]} not updated from #{gem[:installed]} to latest: #{gem[:newest]}")
             end
 
-            unless gem[:current_version] == updated_version
+            unless gem[:installed] == updated_version
               say message.green
               system("git commit -am '#{message}'")
             else
@@ -152,34 +151,6 @@ module Bummr
       system("touch log/bummr.log && echo '#{message}' >> log/bummr.log")
     end
 
-    # see bundler/lib/bundler/cli/outdated.rb
-    def outdated_gems_to_update
-      @gems_to_update ||= begin
-        say 'Scanning for outdated gems...'
-        gems_to_update = []
-
-        all_gem_specs.each do |current_spec|
-          active_spec = bundle_spec(current_spec)
-          next if active_spec.nil?
-
-          if spec_outdated?(current_spec, active_spec)
-            spec_version    = "#{active_spec.version}#{active_spec.git_version}"
-            current_version = "#{current_spec.version}#{current_spec.git_version}"
-
-            gem_to_update = { name: active_spec.name, spec_version: spec_version, current_version: current_version }
-
-            say "Adding #{gem_to_update[:name]} version: #{gem_to_update[:current_version]} to update list"
-
-            gems_to_update << gem_to_update
-          end
-        end
-
-        gems_to_update.sort_by do |gem|
-          gem[:name]
-        end
-      end
-    end
-
     def remove_commit(sha)
       commit_message = `git log --pretty=format:'%s' -n 1 #{sha}`
       message = "Could not apply: #{commit_message}, #{sha}"
@@ -203,35 +174,23 @@ module Bummr
       end
     end
 
-    def spec_outdated?(current_spec, active_spec)
-      gem_outdated = Gem::Version.new(active_spec.version) > Gem::Version.new(current_spec.version)
-      git_outdated = current_spec.git_version != active_spec.git_version
+    def outdated_gems
+      @outdated_gems ||= begin
+        results = []
 
-      gem_outdated || git_outdated
-    end
+        Open3.popen2("bundle outdated --strict") do |std_in, std_out|
+          while line = std_out.gets
+            puts line
 
-    def bundle_spec(current_spec)
-      active_spec = bundle_definition.index[current_spec.name].sort_by { |b| b.version }
-      if !current_spec.version.prerelease? && !options[:pre] && active_spec.size > 1
-        active_spec = active_spec.delete_if { |b| b.respond_to?(:version) && b.version.prerelease? }
-      end
-      active_spec.last
-    end
+            regex = / \* (.*) \(newest (\d\.\d\.\d), installed (\d\.\d\.\d)/.match line
+            unless regex.nil?
+              gem = { name: regex[1], newest: regex[2], installed: regex[3] }
+              results.push gem
+            end
+          end
+        end
 
-    def all_gem_specs
-      current_specs = Bundler.ui.silence { Bundler.load.specs }
-      current_dependencies = {}
-      Bundler.ui.silence { Bundler.load.dependencies.each { |dep| current_dependencies[dep.name] = dep } }
-      gemfile_specs, dependency_specs = current_specs.partition { |spec| current_dependencies.has_key? spec.name }
-      [gemfile_specs, dependency_specs].flatten.sort_by(&:name)
-    end
-
-    def bundle_definition
-      @definition ||= begin
-        Bundler.definition.validate_ruby!
-        definition = Bundler.definition(true)
-        definition.resolve_remotely!
-        definition
+        results
       end
     end
   end
