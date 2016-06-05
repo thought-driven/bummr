@@ -11,6 +11,8 @@ build in separate commits, and logs the name and sha of each gem that fails.
 Bummr assumes you have good test coverage and follow a [pull-request workflow] (https://help.github.com/articles/using-pull-requests/) with `master` as your
 default branch.
 
+Please note that this gem is *alpha* stage and may have bugs.
+
 ## Installation
 
 ```bash
