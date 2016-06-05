@@ -198,7 +198,7 @@ module Bummr
     end
 
     def gemfile_contains(gem_name)
-      /['"]#{gem_name}['"]/.match gemfile
+      /gem ['"]#{gem_name}['"]/.match gemfile
     end
 
     def gemfile
