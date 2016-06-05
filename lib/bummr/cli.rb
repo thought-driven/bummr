@@ -80,7 +80,7 @@ module Bummr
             say "Updating #{gem[:name]}: #{index+1} of #{outdated_gems_to_update.count}"
 
             system("bundle update --source #{gem[:name]}")
-            updated_version = `bundle list | grep #{gem[:name]}`.split('(')[1].split(')')[0]
+            updated_version = `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
             message = "Update #{gem[:name]} from #{gem[:current_version]} to #{updated_version}"
 
             if gem[:spec_version] != updated_version
