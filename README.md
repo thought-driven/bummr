@@ -85,7 +85,14 @@ suite.
 
 `rake build` to build locally
 
-`gem install --local ~/dev/mine/bummr/pkg/bummr-0.0.X.gem` in the app you wish to use it with.
+`gem install --local ~/dev/mine/bummr/pkg/bummr-X.X.X.gem` in the app you
+wish to use it with.
+
+`rake` will run the suite of unit tests.
+
+I'd like to create feature tests, but because Bummr relies on command line
+manipulations which need to be doubled, I'm waiting on [this
+issue](https://github.com/bjoernalbers/aruba-doubles/issues/5)
 
 ## Wanted
 

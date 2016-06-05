@@ -1,5 +1,3 @@
 require "bummr/version"
-
-module Bummr
-  # Your code goes here...
-end
+require "bummr/cli"
+require "bummr/outdated"

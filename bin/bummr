@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/bummr/cli'
+require_relative '../lib/bummr'
 Bummr::CLI.start(ARGV)
