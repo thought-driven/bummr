@@ -1,4 +1,3 @@
-require 'bundler'
 require 'thor'
 require 'open3'
 require 'colorize'
@@ -52,6 +51,7 @@ module Bummr
         exit 0
       else
         puts "Ready to run bummr.".green
+
       end
     end
 
@@ -70,6 +70,8 @@ module Bummr
         check
         log("Bummr update initiated #{Time.now}")
         `bundle`
+
+        outdated_gems = Bummr::Outdated.instance.outdated_gems
 
         if outdated_gems.empty?
           say "No outdated gems to update".green
@@ -173,36 +175,6 @@ module Bummr
         say "Please resolve conflicts, then 'git rebase --continue'."
         say "Run 'bummr test' again once the rebase is complete"
       end
-    end
-
-    def outdated_gems
-      @outdated_gems ||= begin
-        results = []
-
-        Open3.popen2("bundle outdated --strict") do |std_in, std_out|
-          while line = std_out.gets
-            puts line
-
-            regex = / \* (.*) \(newest (\d\.\d\.\d), installed (\d\.\d\.\d)/.match line
-            unless regex.nil?
-              gem = { name: regex[1], newest: regex[2], installed: regex[3] }
-              if gemfile_contains(gem[:name])
-                results.push gem
-              end
-            end
-          end
-        end
-
-        results
-      end
-    end
-
-    def gemfile_contains(gem_name)
-      /gem ['"]#{gem_name}['"]/.match gemfile
-    end
-
-    def gemfile
-      @gemfile ||= `cat Gemfile`
     end
   end
 end
