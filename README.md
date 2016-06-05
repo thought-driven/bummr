@@ -29,7 +29,7 @@ brittle tests and false positives.
 
 ## Usage:
 
-Using bummr can take anywhere from a few minutes to several hours, depending 
+Using bummr can take anywhere from a few minutes to several hours, depending
 on the number of outdated gems you have and the number of tests in your test
 suite.
 
@@ -74,6 +74,9 @@ suite.
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.
+- Bummr conservatively updates gems using `bundle update --source gemname`
+- Bummr automatically rebases out commits which fail the build using an "ours"
+  merge strategy.
 - Bummr may not be able to remove the bad commit due to a merge conflict, in
   which case you will have to remove it manually, continue the rebase, and
   run `bummr test` again.
