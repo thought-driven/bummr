@@ -68,6 +68,7 @@ module Bummr
 
       if yes? "Are you ready to use Bummr? (y/n)"
         check
+        log("Bummr update initiated #{Time.now}")
         `bundle`
 
         if outdated_gems.empty?
@@ -185,13 +186,23 @@ module Bummr
             regex = / \* (.*) \(newest (\d\.\d\.\d), installed (\d\.\d\.\d)/.match line
             unless regex.nil?
               gem = { name: regex[1], newest: regex[2], installed: regex[3] }
-              results.push gem
+              if gemfile_contains(gem[:name])
+                results.push gem
+              end
             end
           end
         end
 
         results
       end
+    end
+
+    def gemfile_contains(gem_name)
+      /['"]#{gem_name}['"]/.match gemfile
+    end
+
+    def gemfile
+      @gemfile ||= `cat Gemfile`
     end
   end
 end
