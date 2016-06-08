@@ -25,7 +25,7 @@ module Bummr
     end
 
     def parse_gem_from(line)
-      regex = / \* (.*) \(newest (\d.*\d), installed (\d.*\d)[\),\s]/.match line
+      regex = / \* (.*) \(newest (\d[\d\.]*\d)[,\s] installed (\d[\d\.]*\d)[\),\s]/.match line
 
       unless regex.nil?
         { name: regex[1], newest: regex[2], installed: regex[3] }
