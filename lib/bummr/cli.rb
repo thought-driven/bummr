@@ -48,7 +48,9 @@ module Bummr
       end
 
       if errors.any?
-        exit 0
+        if !yes? "Bummr found errors! Do you want to continue anyway?".red
+          exit 0
+        end
       else
         puts "Ready to run bummr.".green
 
