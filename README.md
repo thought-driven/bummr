@@ -1,5 +1,7 @@
 # Bummr
 
+[![CircleCI](https://circleci.com/gh/lpender/bummr.svg?style=svg)](https://circleci.com/gh/lpender/bummr)
+
 Updating Gems one by one is a bumm(e)r: especially when one gem causes your build
 to fail.
 
