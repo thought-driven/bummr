@@ -1,6 +1,7 @@
 module Bummr
   class Rebaser
     include Singleton
+    include Log
 
     def remove_commit(sha)
       commit_message = `git log --pretty=format:'%s' -n 1 #{sha}`

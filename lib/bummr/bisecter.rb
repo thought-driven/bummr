@@ -1,17 +1,15 @@
 module Bummr
-  class Updater
+  class Bisecter
     include Singleton
 
     def bisect
-      say "Bad commits found! Bisecting...".red
+      puts "Bad commits found! Bisecting...".red
 
       system("bundle")
       system("git bisect start head master")
 
       Open3.popen2e("git bisect run #{TEST_COMMAND}") do |_std_in, std_out_err|
-        line = std_out_err.gets
-
-        while line
+        while line = std_out_err.gets
           puts line
 
           sha_regex = Regexp::new("(.*) is the first bad commit\n").match(line)
