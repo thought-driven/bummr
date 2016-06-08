@@ -21,5 +21,15 @@ describe Bummr::Outdated do
       expect(gem[:newest]).to eq('11.1.2')
       expect(gem[:installed]).to eq('10.4.2')
     end
+
+    it 'line with requested' do
+      line = '  * rails (newest 4.2.6, installed 4.2.5.1, requested ~> 4.2.0) in group "default"'
+
+      gem = Bummr::Outdated.instance.parse_gem_from(line)
+
+      expect(gem[:name]).to eq('rails')
+      expect(gem[:newest]).to eq('4.2.6')
+      expect(gem[:installed]).to eq('4.2.5.1')
+    end
   end
 end
