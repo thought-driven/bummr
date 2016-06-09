@@ -19,16 +19,17 @@ module Bummr
       updated_version = updated_version_for(gem)
       message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
 
+      if gem[:installed] == updated_version
+        log("#{gem[:name]} not updated")
+        return
+      end
+
       if gem[:newest] != updated_version
         log("#{gem[:name]} not updated from #{gem[:installed]} to latest: #{gem[:newest]}")
       end
 
-      unless gem[:installed] == updated_version
-        puts message.green
-        system("git commit -am '#{message}'")
-      else
-        log("#{gem[:name]} not updated")
-      end
+      log "Commit: #{message}".green
+      system("git commit -am '#{message}'")
     end
 
     def updated_version_for(gem)
