@@ -14,7 +14,7 @@ module Bummr
 
     def update_gem(gem, index)
       puts "Updating #{gem[:name]}: #{index+1} of #{@outdated_gems.count}"
-      system("bundle update --source #{gem[:name]}")
+      system("bundle update #{gem[:name]}")
 
       updated_version = updated_version_for(gem)
       message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
