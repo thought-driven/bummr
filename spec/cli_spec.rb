@@ -4,17 +4,13 @@ describe Bummr::CLI do
   # https://github.com/wireframe/gitx/blob/171da367072b0e82d5906d1e5b3f8ff38e5774e7/spec/thegarage/gitx/cli/release_command_spec.rb#L9
   let(:args) { [] }
   let(:options) { {} }
-  let(:config) do
-    {
-      pretend: true
-    }
-  end
+  let(:config) { { pretend: true } }
   let(:cli) { described_class.new(args, options, config) }
   let(:outdated_gems) {
     [
-      { name: "myGem", installed: "0.3.2", current: "0.3.5" },
-      { name: "otherGem", installed: "1.3.2.23", current: "1.6.5" },
-      { name: "thirdGem", installed: "4.3.4", current: "5.6.45" },
+      { name: "myGem", installed: "0.3.2", newest: "0.3.5" },
+      { name: "otherGem", installed: "1.3.2.23", newest: "1.6.5" },
+      { name: "thirdGem", installed: "4.3.4", newest: "5.6.45" },
     ]
   }
 
