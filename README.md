@@ -1,9 +1,7 @@
 # Bummr
 
 [![CircleCI](https://circleci.com/gh/lpender/bummr.svg?style=svg)](https://circleci.com/gh/lpender/bummr)
-
 [![Code Climate](https://codeclimate.com/github/lpender/bummr/badges/gpa.svg)](https://codeclimate.com/github/lpender/bummr)
-
 [![Test Coverage](https://codeclimate.com/github/lpender/bummr/badges/coverage.svg)](https://codeclimate.com/github/lpender/bummr/coverage)
 
 Updating Gems one by one is a bumm(e)r: especially when one gem causes your build
