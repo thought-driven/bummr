@@ -9,7 +9,7 @@ module Bummr
       @outdated_gems ||= begin
         results = []
 
-        Open3.popen2("bundle outdated --strict") do |std_in, std_out|
+        Open3.popen2("bundle outdated --strict") do |_std_in, std_out|
           while line = std_out.gets
             puts line
             gem = parse_gem_from(line)
@@ -31,6 +31,8 @@ module Bummr
         { name: regex[1], newest: regex[2], installed: regex[3] }
       end
     end
+
+    private
 
     def gemfile_contains(gem_name)
       /gem ['"]#{gem_name}['"]/.match gemfile
