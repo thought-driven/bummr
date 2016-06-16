@@ -5,7 +5,7 @@ module Bummr
     include Bummr::Log
 
     desc "check", "Run automated checks to see if bummr can be run"
-    def check(fullcheck=true)
+    def check(fullcheck)
       Bummr::Check.instance.check(fullcheck)
     end
 
