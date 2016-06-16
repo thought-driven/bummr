@@ -2,7 +2,7 @@ module Bummr
   class Check
     include Singleton
 
-    def check(fullcheck)
+    def check(fullcheck=true)
       @errors = []
 
       check_master
@@ -21,6 +21,8 @@ module Bummr
         puts "Ready to run bummr.".green
       end
     end
+
+    private
 
     def check_master
       if `git rev-parse --abbrev-ref HEAD` == "master\n"
