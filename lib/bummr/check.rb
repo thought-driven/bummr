@@ -2,7 +2,7 @@ module Bummr
   class Check
     include Singleton
 
-    def check(fullcheck)
+    def check(fullcheck=true)
       @errors = []
 
       check_master
@@ -14,13 +14,15 @@ module Bummr
       end
 
       if @errors.any?
-        if !yes? "Bummr found errors! Do you want to continue anyway?".red
+        unless yes? "Bummr found errors! Do you want to continue anyway?".red
           exit 0
         end
       else
         puts "Ready to run bummr.".green
       end
     end
+
+    private
 
     def check_master
       if `git rev-parse --abbrev-ref HEAD` == "master\n"
