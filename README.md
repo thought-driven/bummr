@@ -98,13 +98,6 @@ I'd like to create feature tests, but because Bummr relies on command line
 manipulations which need to be doubled, I'm waiting on [this
 issue](https://github.com/bjoernalbers/aruba-doubles/issues/5)
 
-## Wanted
-
-Here are some things I'd love to add to Bummr:
-
-- Test coverage.
-- Configuration options (for test script path, name of master branch, etc)
-
 ## Thank you!
 
 Thanks to Ryan Sonnek for the [Bundler
