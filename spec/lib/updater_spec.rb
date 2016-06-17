@@ -13,7 +13,7 @@ describe Bummr::Updater do
   let(:newest) { outdated_gems[0][:newest] }
   let(:installed) { outdated_gems[0][:installed] }
   let(:intermediate_version) { "0.3.4" }
-  let(:update_cmd) { "bundle update --source #{gem[:name]}" }
+  let(:update_cmd) { "bundle update #{gem[:name]}" }
 
   describe "#update_gems" do
     it "calls update_gem on each gem" do
