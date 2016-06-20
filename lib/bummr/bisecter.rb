@@ -6,7 +6,9 @@ module Bummr
       puts "Bad commits found! Bisecting...".red
 
       system("bundle")
-      system("git bisect start head master")
+      system("git bisect start")
+      system("git bisect bad")
+      system("git bisect good master")
 
       Open3.popen2e("git bisect run #{TEST_COMMAND}") do |_std_in, std_out_err|
         while line = std_out_err.gets
