@@ -13,7 +13,7 @@ describe Bummr::Bisecter do
   before do
     allow(STDOUT).to receive(:puts)
     allow(bisecter).to receive(:system).with("bundle")
-    allow(bisecter).to receive(:system).with("git bisect start head master")
+    allow(bisecter).to receive(:system)
   end
 
   describe "#bisect" do
