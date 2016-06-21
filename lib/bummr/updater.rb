@@ -1,5 +1,7 @@
 module Bummr
   class Updater
+    include Log
+
     def initialize(outdated_gems)
       @outdated_gems = outdated_gems
     end
