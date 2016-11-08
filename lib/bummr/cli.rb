@@ -21,7 +21,7 @@ module Bummr
         outdated_gems = Bummr::Outdated.instance.outdated_gems
 
         if outdated_gems.empty?
-          puts "No outdated gems to update".green
+          puts "No outdated gems to update".color(:green)
         else
           Bummr::Updater.new(outdated_gems).update_gems
 
@@ -29,7 +29,7 @@ module Bummr
           test
         end
       else
-        puts "Thank you!".green
+        puts "Thank you!".color(:green)
       end
     end
 
@@ -37,13 +37,13 @@ module Bummr
     def test
       check(false)
       system "bundle"
-      puts "Testing the build!".green
+      puts "Testing the build!".color(:green)
 
       if system(TEST_COMMAND) == false
         bisect
       else
-        puts "Passed the build!".green
-        puts "See log/bummr.log for details".yellow
+        puts "Passed the build!".color(:green)
+        puts "See log/bummr.log for details".color(:yellow)
         system("cat log/bummr.log")
       end
     end

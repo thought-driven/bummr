@@ -97,7 +97,7 @@ describe Bummr::Updater do
 
       it "logs the commit" do
         commit_message =
-          "Commit: Update #{gem[:name]} from #{gem[:installed]} to #{gem[:newest]}".green
+          "Commit: Update #{gem[:name]} from #{gem[:installed]} to #{gem[:newest]}".color(:green)
         allow(updater).to receive(:system)
         allow(updater).to receive(:log)
 

@@ -7,7 +7,7 @@ module Bummr
     end
 
     def update_gems
-      puts "Updating outdated gems".green
+      puts "Updating outdated gems".color(:green)
 
       @outdated_gems.each_with_index do |gem, index|
         update_gem(gem, index)
@@ -30,7 +30,7 @@ module Bummr
         log("#{gem[:name]} not updated from #{gem[:installed]} to latest: #{gem[:newest]}")
       end
 
-      log "Commit: #{message}".green
+      log "Commit: #{message}".color(:green)
       system("git commit -am '#{message}'")
     end
 

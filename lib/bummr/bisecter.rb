@@ -3,7 +3,7 @@ module Bummr
     include Singleton
 
     def bisect
-      puts "Bad commits found! Bisecting...".red
+      puts "Bad commits found! Bisecting...".color(:red)
 
       system("bundle")
       system("git bisect start")

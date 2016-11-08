@@ -23,7 +23,7 @@ describe Bummr::Check do
         it "returns 'Ready to run bummr.' and proceeds" do
           check.check
 
-          expect(check).to have_received(:puts).with("Ready to run bummr.".green)
+          expect(check).to have_received(:puts).with("Ready to run bummr.".color(:green))
         end
       end
 
@@ -31,7 +31,7 @@ describe Bummr::Check do
         it "returns 'Ready to run bummr.' and proceeds" do
           check.check(true)
 
-          expect(check).to have_received(:puts).with("Ready to run bummr.".green)
+          expect(check).to have_received(:puts).with("Ready to run bummr.".color(:green))
         end
       end
     end
@@ -46,7 +46,7 @@ describe Bummr::Check do
         check.check
 
         expect(check).to have_received(:puts)
-          .with("Bummr is not meant to be run on master".red)
+          .with("Bummr is not meant to be run on master".color(:red))
         expect(check).to have_received(:yes?)
         expect(check).to have_received(:exit).with(0)
       end
@@ -62,7 +62,7 @@ describe Bummr::Check do
         check.check
 
         expect(check).to have_received(:puts)
-          .with("There is no log directory or you are not in the root".red)
+          .with("There is no log directory or you are not in the root".color(:red))
         expect(check).to have_received(:yes?)
         expect(check).to have_received(:exit).with(0)
       end
@@ -81,7 +81,7 @@ describe Bummr::Check do
           check.check
 
           expect(check).to have_received(:puts)
-            .with("You are already bisecting. Make sure `git status` is clean".red)
+            .with("You are already bisecting. Make sure `git status` is clean".color(:red))
           expect(check).to have_received(:yes?)
           expect(check).to have_received(:exit).with(0)
         end
@@ -98,7 +98,7 @@ describe Bummr::Check do
           check.check
 
           expect(check).to have_received(:puts)
-            .with("You are already rebasing. Make sure `git status` is clean".red)
+            .with("You are already rebasing. Make sure `git status` is clean".color(:red))
           expect(check).to have_received(:yes?)
           expect(check).to have_received(:exit).with(0)
         end
@@ -116,7 +116,7 @@ describe Bummr::Check do
         check.check(true)
 
         expect(check).to have_received(:puts)
-          .with("Please make sure that `git diff master` returns empty".red)
+          .with("Please make sure that `git diff master` returns empty".color(:red))
         expect(check).to have_received(:yes?)
         expect(check).to have_received(:exit).with(0)
       end

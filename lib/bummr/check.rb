@@ -14,11 +14,11 @@ module Bummr
       end
 
       if @errors.any?
-        unless yes? "Bummr found errors! Do you want to continue anyway?".red
+        unless yes? "Bummr found errors! Do you want to continue anyway?".color(:red)
           exit 0
         end
       else
-        puts "Ready to run bummr.".green
+        puts "Ready to run bummr.".color(:green)
       end
     end
 
@@ -27,7 +27,7 @@ module Bummr
     def check_master
       if `git rev-parse --abbrev-ref HEAD` == "master\n"
         message = "Bummr is not meant to be run on master"
-        puts message.red
+        puts message.color(:red)
         puts "Please checkout a branch with 'git checkout -b update-gems'"
         @errors.push message
       end
@@ -36,7 +36,7 @@ module Bummr
     def check_log
       unless File.directory? "log"
         message = "There is no log directory or you are not in the root"
-        puts message.red
+        puts message.color(:red)
         @errors.push message
       end
     end
@@ -54,7 +54,7 @@ module Bummr
         end
 
         message += "Make sure `git status` is clean"
-        puts message.red
+        puts message.color(:red)
         @errors.push message
       end
     end
@@ -62,7 +62,7 @@ module Bummr
     def check_diff
       unless `git diff master`.empty?
         message = "Please make sure that `git diff master` returns empty"
-        puts message.red
+        puts message.color(:red)
         @errors.push message
       end
     end
