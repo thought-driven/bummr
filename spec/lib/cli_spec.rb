@@ -35,7 +35,7 @@ describe Bummr::CLI do
           expect(cli).to receive(:check)
           expect(cli).to receive(:log)
           expect(cli).to receive(:system).with("bundle")
-          expect(cli).to receive(:puts).with("No outdated gems to update".green)
+          expect(cli).to receive(:puts).with("No outdated gems to update".color(:green))
 
           cli.update
         end

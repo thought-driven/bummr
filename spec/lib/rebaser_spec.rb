@@ -17,7 +17,7 @@ describe Bummr::Rebaser do
       rebaser.remove_commit(sha)
 
       expect(rebaser).to have_received(:log).with(
-        "Bad commit: commit message, #{sha}".red
+        "Bad commit: commit message, #{sha}".color(:red)
       )
     end
 
@@ -36,7 +36,7 @@ describe Bummr::Rebaser do
         rebaser.remove_commit(sha)
 
         expect(rebaser).to have_received(:log).with(
-          "Successfully removed bad commit...".green
+          "Successfully removed bad commit...".color(:green)
         )
       end
 
@@ -56,7 +56,7 @@ describe Bummr::Rebaser do
         rebaser.remove_commit(sha)
 
         expect(rebaser).to have_received(:log).with(
-          "Could not automatically remove this commit!".red
+          "Could not automatically remove this commit!".color(:red)
         )
       end
     end

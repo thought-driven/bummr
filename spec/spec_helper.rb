@@ -3,4 +3,4 @@ SimpleCov.start
 
 require 'pry'
 require 'bummr'
-require 'colorize'
+require 'rainbow/ext/string'
