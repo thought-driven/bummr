@@ -13,7 +13,10 @@ The bummr gem allows you to automatically update all gems which pass your
 build in separate commits, and logs the name and sha of each gem that fails.
 
 Bummr assumes you have good test coverage and follow a [pull-request workflow] (https://help.github.com/articles/using-pull-requests/) with `master` as your
-default branch.
+base branch.
+
+The base branch can be overridden by setting the environment variable
+`BUMMR_BASE_BRANCH` to another branch when running commands.
 
 Please note that this gem is *alpha* stage and may have bugs.
 
@@ -37,7 +40,7 @@ Using bummr can take anywhere from a few minutes to several hours, depending
 on the number of outdated gems you have and the number of tests in your test
 suite.
 
-- After installing, create a new, clean branch off of master.
+- After installing, create a new, clean branch off of your base branch.
 - Run `bummr update`. This may take some time.
 - `Bummr` will give you the opportunity to interactively rebase your branch
   before running the tests. Delete any commits for gems which you don't want
@@ -45,7 +48,7 @@ suite.
 - At this point, you can leave `bummr` to work for some time.
 - If your build fails, `bummr` will attempt to automatically remove breaking
   commits, until the build passes, logging any failures to `/log/bummr.log`.
-- Once your build passes, open a pull-request and merge it to your `master` branch.
+- Once your build passes, open a pull-request and merge it to your base branch.
 
 ##### `bummr update`
 
@@ -55,7 +58,7 @@ suite.
 
 `Update gemname from 0.0.1 to 0.0.2`
 
-- Runs `git rebase -i master` to allow you the chance to review and make changes.
+- Runs `git rebase -i your_base_branch` to allow you the chance to review and make changes.
 - Runs `bummr test`
 
 ##### `bummr test`
@@ -65,7 +68,7 @@ suite.
 
 ##### `bummr bisect`
 
-- `git bisect`s against master.
+- `git bisect`s against your base branch.
 - Finds the bad commit and attempts to remove it.
 - Logs the bad commit in `log/bummr.log`.
 - Runs `bummr test`.
@@ -74,7 +77,7 @@ suite.
 
 - Bummr assumes you have good test coverage and follow a [pull-request workflow]
   (https://help.github.com/articles/using-pull-requests/) with `master` as your
-  default branch.
+  base branch.
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.

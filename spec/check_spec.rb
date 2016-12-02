@@ -5,7 +5,7 @@ describe Bummr::Check do
 
   before(:each) do
     allow(check)
-      .to receive(:check_master).and_return(nil)
+      .to receive(:check_base_branch).and_return(nil)
     allow(check)
       .to receive(:check_log).and_return(nil)
     allow(check)
@@ -36,17 +36,17 @@ describe Bummr::Check do
       end
     end
 
-    context "check_master fails" do
+    context "check_base_branch fails" do
       it "reports the error and exits after confirm" do
         allow(check)
-          .to receive(:check_master).and_call_original
+          .to receive(:check_base_branch).and_call_original
         allow(check).to receive(:`).with('git rev-parse --abbrev-ref HEAD')
-          .and_return "master\n"
+          .and_return "#{BASE_BRANCH}\n"
 
         check.check
 
         expect(check).to have_received(:puts)
-          .with("Bummr is not meant to be run on master".color(:red))
+          .with("Bummr is not meant to be run on your base branch #{BASE_BRANCH}".color(:red))
         expect(check).to have_received(:yes?)
         expect(check).to have_received(:exit).with(0)
       end
@@ -106,17 +106,15 @@ describe Bummr::Check do
     end
 
     context "check_diff fails" do
-      before do
-        allow(check).to receive(:check_diff).and_call_original
-        allow(check).to receive(:`).with('git diff master')
-          .and_return "+ file"
-      end
-
       it "reports the error and exits after confirm" do
+        allow(check).to receive(:check_diff).and_call_original
+        allow(check).to receive(:`).with("git diff #{BASE_BRANCH}")
+          .and_return "+ file"
+
         check.check(true)
 
         expect(check).to have_received(:puts)
-          .with("Please make sure that `git diff master` returns empty".color(:red))
+          .with("Please make sure that `git diff #{BASE_BRANCH}` returns empty".color(:red))
         expect(check).to have_received(:yes?)
         expect(check).to have_received(:exit).with(0)
       end
