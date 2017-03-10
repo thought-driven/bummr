@@ -31,13 +31,21 @@ If you prefer, you can [run the build more than once]
 (https://gist.github.com/lpender/f6b55e7f3649db3b6df5), to protect against
 brittle tests and false positives.
 
+By default, bummr will assume your base branch is named `master`. If you would
+like to designate a different base branch, you can set the `BASE_BRANCH`
+environment variable: `export BASE_BRANCH='develop'
+
 ## Usage:
 
 Using bummr can take anywhere from a few minutes to several hours, depending
 on the number of outdated gems you have and the number of tests in your test
 suite.
 
-- After installing, create a new, clean branch off of master.
+For the purpose of these instructions, we are assuming that your base branch is
+`master`. If you would like to specify a different base branch, see the
+instructions in the Installation section of this README.
+
+- After installing, create a new, clean branch off of your `master` branch.
 - Run `bummr update`. This may take some time.
 - `Bummr` will give you the opportunity to interactively rebase your branch
   before running the tests. Delete any commits for gems which you don't want

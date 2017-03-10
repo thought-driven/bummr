@@ -1,4 +1,5 @@
 TEST_COMMAND = ENV["BUMMR_TEST"] || "bundle exec rake"
+BASE_BRANCH = ENV["BASE_BRANCH"] || "master"
 
 module Bummr
   class CLI < Thor
@@ -25,7 +26,7 @@ module Bummr
         else
           Bummr::Updater.new(outdated_gems).update_gems
 
-          system("git rebase -i master")
+          system("git rebase -i #{BASE_BRANCH}")
           test
         end
       else
@@ -59,7 +60,7 @@ module Bummr
 
     def ask_questions
       puts "To run Bummr, you must:"
-      puts "- Be in the root path of a clean git branch off of master"
+      puts "- Be in the root path of a clean git branch off of #{BASE_BRANCH}"
       puts "- Have no commits or local changes"
       puts "- Have a 'log' directory, where we can place logs"
       puts "- Have your build configured to fail fast (recommended)"

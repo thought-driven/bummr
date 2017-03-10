@@ -54,7 +54,7 @@ describe Bummr::CLI do
           expect(cli).to receive(:log)
           expect(cli).to receive(:system).with("bundle")
           expect(Bummr::Updater).to receive(:new).with(outdated_gems).and_return updater
-          expect(cli).to receive(:system).with("git rebase -i master")
+          expect(cli).to receive(:system).with("git rebase -i #{BASE_BRANCH}")
           expect(cli).to receive(:test)
 
           cli.update
