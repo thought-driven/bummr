@@ -5,7 +5,7 @@ module Bummr
     def check(fullcheck=true)
       @errors = []
 
-      check_master
+      check_base_branch
       check_log
       check_status
 
@@ -24,9 +24,9 @@ module Bummr
 
     private
 
-    def check_master
-      if `git rev-parse --abbrev-ref HEAD` == "master\n"
-        message = "Bummr is not meant to be run on master"
+    def check_base_branch
+      if `git rev-parse --abbrev-ref HEAD` == "#{BASE_BRANCH}\n"
+        message = "Bummr is not meant to be run on your base branch"
         puts message.color(:red)
         puts "Please checkout a branch with 'git checkout -b update-gems'"
         @errors.push message
@@ -60,8 +60,8 @@ module Bummr
     end
 
     def check_diff
-      unless `git diff master`.empty?
-        message = "Please make sure that `git diff master` returns empty"
+      unless `git diff #{BASE_BRANCH}`.empty?
+        message = "Please make sure that `git diff #{BASE_BRANCH}` returns empty"
         puts message.color(:red)
         @errors.push message
       end
