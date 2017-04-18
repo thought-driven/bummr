@@ -93,6 +93,10 @@ instructions in the Installation section of this README.
   which case you will have to remove it manually, continue the rebase, and
   run `bummr test` again.
 
+## License
+
+See LICENSE
+
 ## Developing
 
 `rake build` to build locally
