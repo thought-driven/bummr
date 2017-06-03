@@ -1,5 +1,5 @@
 module Bummr
-  class Check
+  class Check < Thor
     include Singleton
 
     def check(fullcheck=true)
