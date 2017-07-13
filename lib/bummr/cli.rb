@@ -11,6 +11,7 @@ module Bummr
     end
 
     desc "update", "Update outdated gems, run tests, bisect if tests fail"
+    method_option :all, type: :boolean, default: false
     def update
       ask_questions
 
@@ -19,7 +20,7 @@ module Bummr
         log("Bummr update initiated #{Time.now}")
         system("bundle")
 
-        outdated_gems = Bummr::Outdated.instance.outdated_gems
+        outdated_gems = Bummr::Outdated.instance.outdated_gems(all_gems: options[:all])
 
         if outdated_gems.empty?
           puts "No outdated gems to update".color(:green)

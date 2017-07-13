@@ -60,6 +60,30 @@ describe Bummr::CLI do
           cli.update
         end
       end
+
+      describe "all option" do
+        it "requests all outdated gems be listed" do
+          options[:all] = true
+
+          expect_any_instance_of(Bummr::Outdated)
+            .to receive(:outdated_gems).with({ all_gems: true })
+            .and_return outdated_gems
+
+          updater = double
+          allow(updater).to receive(:update_gems)
+
+          expect(cli).to receive(:ask_questions)
+          expect(cli).to receive(:yes?).and_return(true)
+          expect(cli).to receive(:check)
+          expect(cli).to receive(:log)
+          expect(cli).to receive(:system).with("bundle")
+          expect(Bummr::Updater).to receive(:new).with(outdated_gems).and_return updater
+          expect(cli).to receive(:system).with("git rebase -i #{BASE_BRANCH}")
+          expect(cli).to receive(:test)
+
+          cli.update
+        end
+      end
     end
   end
 
