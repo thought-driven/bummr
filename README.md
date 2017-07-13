@@ -12,8 +12,8 @@ Gems should be updated in [separate commits](http://ilikestuffblog.com/2012/07/0
 The bummr gem allows you to automatically update all gems which pass your
 build in separate commits, and logs the name and sha of each gem that fails.
 
-Bummr assumes you have good test coverage and follow a [pull-request workflow] (https://help.github.com/articles/using-pull-requests/) with `master` as your
-default branch.
+Bummr assumes you have good test coverage and follow a [pull-request workflow]
+with `master` as your default branch.
 
 Please note that this gem is *alpha* stage and may have bugs.
 
@@ -27,13 +27,14 @@ By default, bummr will use `bundle exec rake` to run your build.
 
 To customize your build command, `export BUMMR_TEST="./bummr-build.sh"`
 
-If you prefer, you can [run the build more than once]
-(https://gist.github.com/lpender/f6b55e7f3649db3b6df5), to protect against
+If you prefer, you can [run the build more than once], to protect against
 brittle tests and false positives.
 
 By default, bummr will assume your base branch is named `master`. If you would
 like to designate a different base branch, you can set the `BASE_BRANCH`
 environment variable: `export BASE_BRANCH='develop'`
+
+[run the build more than once]: https://gist.github.com/lpender/f6b55e7f3649db3b6df5
 
 ## Usage:
 
@@ -83,8 +84,7 @@ instructions in the Installation section of this README.
 ## Notes
 
 - Bummr assumes you have good test coverage and follow a [pull-request workflow]
-  (https://help.github.com/articles/using-pull-requests/) with `master` as your
-  default branch.
+  with `master` as your default branch.
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.
@@ -116,3 +116,5 @@ issue](https://github.com/bjoernalbers/aruba-doubles/issues/5)
 
 Thanks to Ryan Sonnek for the [Bundler
 Updater](https://github.com/wireframe/bundler-updater) gem.
+
+[pull-request workflow]: https://help.github.com/articles/using-pull-requests
