@@ -7,6 +7,7 @@ describe Bummr::Outdated do
     output += "  * devise (newest 4.1.1, installed 3.5.2) in group \"default\"\n"
     output += "  * rake (newest 11.1.2, installed 10.4.2)\n"
     output += "  * rails (newest 4.2.6, installed 4.2.5.1, requested ~> 4.2.0) in group \"default\"\n"
+    output += "  * indirect_dep (newest 1.0.0, installed 0.0.1)\n"
     StringIO.new(output)
   }
 
@@ -37,6 +38,30 @@ describe Bummr::Outdated do
       expect(result[2][:name]).to eq('rails')
       expect(result[2][:newest]).to eq('4.2.6')
       expect(result[2][:installed]).to eq('4.2.5.1')
+    end
+
+    describe "all gems option" do
+      it "lists all outdated dependencies by omitting the strict option" do
+        allow(Open3).to receive(:popen2).with("bundle outdated").and_yield(nil, stdoutput)
+
+        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+
+        results = Bummr::Outdated.instance.outdated_gems(all_gems: true)
+        gem_names = results.map { |result| result[:name] }
+
+        expect(gem_names).to include "indirect_dep"
+      end
+
+      it "defaults to false" do
+        expect(Open3).to receive(:popen2).with("bundle outdated", "--strict").and_yield(nil, stdoutput)
+
+        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+
+        results = Bummr::Outdated.instance.outdated_gems
+        gem_names = results.map { |result| result[:name] }
+
+        expect(gem_names).to_not include "indirect_dep"
+      end
     end
   end
 

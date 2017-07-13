@@ -33,7 +33,7 @@ brittle tests and false positives.
 
 By default, bummr will assume your base branch is named `master`. If you would
 like to designate a different base branch, you can set the `BASE_BRANCH`
-environment variable: `export BASE_BRANCH='develop'
+environment variable: `export BASE_BRANCH='develop'`
 
 ## Usage:
 
@@ -60,6 +60,8 @@ instructions in the Installation section of this README.
 - Finds all your outdated gems
 - Updates them each individually, using `bundle update --source #{gemname}`
 - Commits each gem update separately, with a commit message like:
+- Options:
+  - `--all` to include indirect dependencies (`bummr` defaults to direct dependencies only)
 
 `Update gemname from 0.0.1 to 0.0.2`
 

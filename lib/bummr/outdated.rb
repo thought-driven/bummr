@@ -5,23 +5,24 @@ module Bummr
   class Outdated
     include Singleton
 
-    def outdated_gems
-      @outdated_gems ||= begin
-        results = []
+    def outdated_gems(all_gems: false)
+      results = []
 
-        Open3.popen2("bundle outdated --strict") do |_std_in, std_out|
-          while line = std_out.gets
-            puts line
-            gem = parse_gem_from(line)
+      options = []
+      options << "--strict" unless all_gems
 
-            if gem && gemfile_contains(gem[:name])
-              results.push gem
-            end
+      Open3.popen2("bundle outdated", *options) do |_std_in, std_out|
+        while line = std_out.gets
+          puts line
+          gem = parse_gem_from(line)
+
+          if gem && (all_gems || gemfile_contains(gem[:name]))
+            results.push gem
           end
         end
-
-        results
       end
+
+      results
     end
 
     def parse_gem_from(line)
