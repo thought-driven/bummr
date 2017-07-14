@@ -1,9 +1,10 @@
 require 'open3'
-require 'singleton'
 
 module Bummr
   class Outdated
-    include Singleton
+    def initialize(file_reader: File)
+      @file_reader = file_reader
+    end
 
     def outdated_gems(all_gems: false)
       results = []
@@ -35,12 +36,14 @@ module Bummr
 
     private
 
+    attr_reader :file_reader
+
     def gemfile_contains(gem_name)
       /gem ['"]#{gem_name}['"]/.match gemfile
     end
 
     def gemfile
-      @gemfile ||= `cat Gemfile`
+      @gemfile ||= file_reader.read("Gemfile")
     end
   end
 end
