@@ -20,8 +20,14 @@ describe Bummr::Outdated do
   }
 
   let(:file_reader) { class_double(File) }
+  let(:process_provider) { class_double(Open3) }
 
-  subject { described_class.new(file_reader: file_reader) }
+  subject do
+    described_class.new(
+      file_reader: file_reader,
+      process_provider: process_provider,
+    )
+  end
 
   describe "#outdated_gems" do
     before(:each) do
@@ -29,7 +35,7 @@ describe Bummr::Outdated do
     end
 
     it "Correctly identifies outdated gems" do
-      allow(Open3).to receive(:popen2).and_yield(nil, stdoutput)
+      allow(process_provider).to receive(:popen2).and_yield(nil, stdoutput)
 
       result = subject.outdated_gems
 
@@ -48,7 +54,7 @@ describe Bummr::Outdated do
 
     describe "all gems option" do
       it "lists all outdated dependencies by omitting the strict option" do
-        allow(Open3).to receive(:popen2).with("bundle outdated").and_yield(nil, stdoutput)
+        expect(process_provider).to receive(:popen2).with("bundle outdated").and_yield(nil, stdoutput)
 
         results = subject.outdated_gems(all_gems: true)
         gem_names = results.map { |result| result[:name] }
@@ -57,7 +63,7 @@ describe Bummr::Outdated do
       end
 
       it "defaults to false" do
-        expect(Open3).to receive(:popen2).with("bundle outdated", "--strict").and_yield(nil, stdoutput)
+        expect(process_provider).to receive(:popen2).with("bundle outdated", "--strict").and_yield(nil, stdoutput)
 
         results = subject.outdated_gems
         gem_names = results.map { |result| result[:name] }
