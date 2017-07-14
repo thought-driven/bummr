@@ -20,7 +20,7 @@ module Bummr
         log("Bummr update initiated #{Time.now}")
         system("bundle")
 
-        outdated_gems = Bummr::Outdated.instance.outdated_gems(all_gems: options[:all])
+        outdated_gems = Bummr::Outdated.new.outdated_gems(all_gems: options[:all])
 
         if outdated_gems.empty?
           puts "No outdated gems to update".color(:green)

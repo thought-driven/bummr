@@ -1,9 +1,11 @@
 require 'open3'
-require 'singleton'
 
 module Bummr
   class Outdated
-    include Singleton
+    def initialize(file_reader: File, process_provider: Open3)
+      @file_reader = file_reader
+      @process_provider = process_provider
+    end
 
     def outdated_gems(all_gems: false)
       results = []
@@ -11,7 +13,7 @@ module Bummr
       options = []
       options << "--strict" unless all_gems
 
-      Open3.popen2("bundle outdated", *options) do |_std_in, std_out|
+      process_provider.popen2("bundle outdated", *options) do |_std_in, std_out|
         while line = std_out.gets
           puts line
           gem = parse_gem_from(line)
@@ -35,12 +37,14 @@ module Bummr
 
     private
 
+    attr_reader :file_reader, :process_provider
+
     def gemfile_contains(gem_name)
       /gem ['"]#{gem_name}['"]/.match gemfile
     end
 
     def gemfile
-      @gemfile ||= `cat Gemfile`
+      @gemfile ||= file_reader.read("Gemfile")
     end
   end
 end

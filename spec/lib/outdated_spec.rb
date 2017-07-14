@@ -19,13 +19,25 @@ describe Bummr::Outdated do
     gemfile
   }
 
-  describe "#outdated_gems" do
-    it "Correctly identifies outdated gems" do
-      allow(Open3).to receive(:popen2).and_yield(nil, stdoutput)
-      allow_any_instance_of(described_class).to receive(:gemfile).and_return gemfile
+  let(:file_reader) { class_double(File) }
+  let(:process_provider) { class_double(Open3) }
 
-      instance = Bummr::Outdated.instance
-      result = instance.outdated_gems
+  subject do
+    described_class.new(
+      file_reader: file_reader,
+      process_provider: process_provider,
+    )
+  end
+
+  describe "#outdated_gems" do
+    before(:each) do
+      allow(file_reader).to receive(:read).and_return gemfile
+    end
+
+    it "Correctly identifies outdated gems" do
+      allow(process_provider).to receive(:popen2).and_yield(nil, stdoutput)
+
+      result = subject.outdated_gems
 
       expect(result[0][:name]).to eq('devise')
       expect(result[0][:newest]).to eq('4.1.1')
@@ -42,22 +54,18 @@ describe Bummr::Outdated do
 
     describe "all gems option" do
       it "lists all outdated dependencies by omitting the strict option" do
-        allow(Open3).to receive(:popen2).with("bundle outdated").and_yield(nil, stdoutput)
+        expect(process_provider).to receive(:popen2).with("bundle outdated").and_yield(nil, stdoutput)
 
-        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
-
-        results = Bummr::Outdated.instance.outdated_gems(all_gems: true)
+        results = subject.outdated_gems(all_gems: true)
         gem_names = results.map { |result| result[:name] }
 
         expect(gem_names).to include "indirect_dep"
       end
 
       it "defaults to false" do
-        expect(Open3).to receive(:popen2).with("bundle outdated", "--strict").and_yield(nil, stdoutput)
+        expect(process_provider).to receive(:popen2).with("bundle outdated", "--strict").and_yield(nil, stdoutput)
 
-        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
-
-        results = Bummr::Outdated.instance.outdated_gems
+        results = subject.outdated_gems
         gem_names = results.map { |result| result[:name] }
 
         expect(gem_names).to_not include "indirect_dep"
@@ -69,7 +77,7 @@ describe Bummr::Outdated do
     it 'line' do
       line = '  * devise (newest 4.1.1, installed 3.5.2) in group "default"'
 
-      gem = Bummr::Outdated.instance.parse_gem_from(line)
+      gem = subject.parse_gem_from(line)
 
       expect(gem[:name]).to eq('devise')
       expect(gem[:newest]).to eq('4.1.1')
@@ -79,7 +87,7 @@ describe Bummr::Outdated do
     it 'line in group' do
       line = '  * rake (newest 11.1.2, installed 10.4.2)'
 
-      gem = Bummr::Outdated.instance.parse_gem_from(line)
+      gem = subject.parse_gem_from(line)
 
       expect(gem[:name]).to eq('rake')
       expect(gem[:newest]).to eq('11.1.2')
@@ -89,7 +97,7 @@ describe Bummr::Outdated do
     it 'line with requested' do
       line = '  * rails (newest 4.2.6, installed 4.2.5.1, requested ~> 4.2.0) in group "default"'
 
-      gem = Bummr::Outdated.instance.parse_gem_from(line)
+      gem = subject.parse_gem_from(line)
 
       expect(gem[:name]).to eq('rails')
       expect(gem[:newest]).to eq('4.2.6')
