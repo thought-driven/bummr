@@ -8,10 +8,10 @@ module Bummr
     def outdated_gems(all_gems: false)
       results = []
 
-      options = []
-      options << "--strict" unless all_gems
+      options =  ""
+      options << " --strict" unless all_gems
 
-      Open3.popen2("bundle outdated", *options) do |_std_in, std_out|
+      Open3.popen2("bundle outdated" + options) do |_std_in, std_out|
         while line = std_out.gets
           puts line
           gem = parse_gem_from(line)

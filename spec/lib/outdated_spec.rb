@@ -53,7 +53,7 @@ describe Bummr::Outdated do
       end
 
       it "defaults to false" do
-        expect(Open3).to receive(:popen2).with("bundle outdated", "--strict").and_yield(nil, stdoutput)
+        expect(Open3).to receive(:popen2).with("bundle outdated --strict").and_yield(nil, stdoutput)
 
         allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
 
