@@ -7,6 +7,7 @@ describe Bummr::Outdated do
     output += "  * devise (newest 4.1.1, installed 3.5.2) in group \"default\"\n"
     output += "  * rake (newest 11.1.2, installed 10.4.2)\n"
     output += "  * rails (newest 4.2.6, installed 4.2.5.1, requested ~> 4.2.0) in group \"default\"\n"
+    output += "  * spring (newest 4.2.6, installed 4.2.5.1, requested ~> 4.2.0) in group \"development\"\n"
     output += "  * indirect_dep (newest 1.0.0, installed 0.0.1)\n"
     StringIO.new(output)
   }
@@ -16,6 +17,7 @@ describe Bummr::Outdated do
     gemfile += "gem 'devise'\n"
     gemfile += "gem 'rake'\n"
     gemfile += "gem 'rails'\n"
+    gemfile += "gem 'spring', :group => :development\n"
     gemfile
   }
 
@@ -38,6 +40,10 @@ describe Bummr::Outdated do
       expect(result[2][:name]).to eq('rails')
       expect(result[2][:newest]).to eq('4.2.6')
       expect(result[2][:installed]).to eq('4.2.5.1')
+
+      expect(result[3][:name]).to eq('spring')
+      expect(result[3][:newest]).to eq('4.2.6')
+      expect(result[3][:installed]).to eq('4.2.5.1')
     end
 
     describe "all gems option" do
@@ -61,6 +67,40 @@ describe Bummr::Outdated do
         gem_names = results.map { |result| result[:name] }
 
         expect(gem_names).to_not include "indirect_dep"
+      end
+    end
+
+    describe "group option" do
+      let(:stdoutput_from_development_group) {
+        output = String.new
+        output += "  * spring (newest 4.2.6, installed 4.2.5.1, requested ~> 4.2.0)"
+        StringIO.new(output)
+      }
+
+      it "lists outdated gems only from supplied group" do
+        allow(Open3).to receive(:popen2)
+          .with("bundle outdated --strict --group development")
+          .and_yield(nil, stdoutput_from_development_group)
+
+        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+
+        results = Bummr::Outdated.instance.outdated_gems(group: :development)
+        gem_names = results.map { |result| result[:name] }
+
+        expect(gem_names).to match_array ['spring']
+      end
+
+      it "defaults to all groups" do
+        allow(Open3).to receive(:popen2)
+          .with("bundle outdated --strict")
+          .and_yield(nil, stdoutput)
+
+        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+
+        results = Bummr::Outdated.instance.outdated_gems
+        gem_names = results.map { |result| result[:name] }
+
+        expect(gem_names).to include 'devise', 'rake', 'rails', 'spring'
       end
     end
   end
