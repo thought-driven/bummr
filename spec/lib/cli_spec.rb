@@ -79,6 +79,20 @@ describe Bummr::CLI do
           cli.update
         end
       end
+
+      describe "group option" do
+        it "requests only outdated gems from supplied be listed" do
+          options[:group] = 'test'
+
+          expect_any_instance_of(Bummr::Outdated)
+            .to receive(:outdated_gems).with(hash_including({ group: 'test' }))
+            .and_return outdated_gems
+
+          mock_bummr_standard_flow
+
+          cli.update
+        end
+      end
     end
   end
 
