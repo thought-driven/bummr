@@ -66,7 +66,7 @@ describe Bummr::CLI do
           options[:all] = true
 
           expect_any_instance_of(Bummr::Outdated)
-            .to receive(:outdated_gems).with({ all_gems: true })
+            .to receive(:outdated_gems).with(hash_including({ all_gems: true }))
             .and_return outdated_gems
 
           updater = double
