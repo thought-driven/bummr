@@ -2,6 +2,7 @@ module Bummr
   class Check < Thor
     include Singleton
 
+    desc "check", "Run automated checks to see if bummr can be run"
     def check(fullcheck=true)
       @errors = []
 
