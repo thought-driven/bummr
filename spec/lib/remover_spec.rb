@@ -4,7 +4,7 @@ describe Bummr::Remover do
   # let(:commit_message) { "test commit message" }
   let(:remover) { Bummr::Remover.instance }
   let(:sha) { "testsha" }
-  let(:remove_command) { "git revert #{sha} --no-edit" }
+  let(:remove_command) { "git rebase -p --onto #{sha}^ #{sha}" }
 
   before do
     allow(remover).to receive(:commit_message_for).and_return "commit message"
