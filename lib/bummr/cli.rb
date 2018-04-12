@@ -66,7 +66,7 @@ module Bummr
       puts "- Have a 'log' directory, where we can place logs"
       puts "- Have your build configured to fail fast (recommended)"
       puts "- Have locked any Gem version that you don't wish to update in your Gemfile"
-      puts "- It is recommended that you lock your versions of `ruby` and `rails in your Gemfile`"
+      puts "- It is recommended that you lock your versions of `ruby` and `rails` in your `Gemfile`"
       puts "Your test command is: '#{TEST_COMMAND}'"
     end
   end
