@@ -65,6 +65,7 @@ module Bummr
     private
 
     def ask_questions
+      puts "Bummr #{VERSION}"
       puts "To run Bummr, you must:"
       puts "- Be in the root path of a clean git branch off of #{BASE_BRANCH}"
       puts "- Have no commits or local changes"
