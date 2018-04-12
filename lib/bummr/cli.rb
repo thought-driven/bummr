@@ -49,7 +49,6 @@ module Bummr
       else
         puts "Passed the build!".color(:green)
         puts "See log/bummr.log for details".color(:yellow)
-        system("cat log/bummr.log")
       end
     end
 
