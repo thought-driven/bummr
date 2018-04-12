@@ -25,6 +25,20 @@ describe Bummr::CLI do
     end
 
     context "when user agrees to move forward" do
+      def mock_bummr_standard_flow
+        updater = double
+        allow(updater).to receive(:update_gems)
+
+        expect(cli).to receive(:ask_questions)
+        expect(cli).to receive(:yes?).and_return(true)
+        expect(cli).to receive(:check)
+        expect(cli).to receive(:log)
+        expect(cli).to receive(:system).with("bundle")
+        expect(Bummr::Updater).to receive(:new).with(outdated_gems).and_return updater
+        expect(cli).to receive(:system).with("git rebase -i #{BASE_BRANCH}")
+        expect(cli).to receive(:test)
+      end
+
       context "and there are no outdated gems" do
         it "informs that there are no outdated gems" do
           allow_any_instance_of(Bummr::Outdated).to receive(:outdated_gems)
@@ -45,17 +59,8 @@ describe Bummr::CLI do
         it "calls 'update' on the updater" do
           allow_any_instance_of(Bummr::Outdated).to receive(:outdated_gems)
             .and_return outdated_gems
-          updater = double
-          allow(updater).to receive(:update_gems)
 
-          expect(cli).to receive(:ask_questions)
-          expect(cli).to receive(:yes?).and_return(true)
-          expect(cli).to receive(:check)
-          expect(cli).to receive(:log)
-          expect(cli).to receive(:system).with("bundle")
-          expect(Bummr::Updater).to receive(:new).with(outdated_gems).and_return updater
-          expect(cli).to receive(:system).with("git rebase -i #{BASE_BRANCH}")
-          expect(cli).to receive(:test)
+          mock_bummr_standard_flow
 
           cli.update
         end
@@ -66,20 +71,24 @@ describe Bummr::CLI do
           options[:all] = true
 
           expect_any_instance_of(Bummr::Outdated)
-            .to receive(:outdated_gems).with({ all_gems: true })
+            .to receive(:outdated_gems).with(hash_including({ all_gems: true }))
             .and_return outdated_gems
 
-          updater = double
-          allow(updater).to receive(:update_gems)
+          mock_bummr_standard_flow
 
-          expect(cli).to receive(:ask_questions)
-          expect(cli).to receive(:yes?).and_return(true)
-          expect(cli).to receive(:check)
-          expect(cli).to receive(:log)
-          expect(cli).to receive(:system).with("bundle")
-          expect(Bummr::Updater).to receive(:new).with(outdated_gems).and_return updater
-          expect(cli).to receive(:system).with("git rebase -i #{BASE_BRANCH}")
-          expect(cli).to receive(:test)
+          cli.update
+        end
+      end
+
+      describe "group option" do
+        it "requests only outdated gems from supplied be listed" do
+          options[:group] = 'test'
+
+          expect_any_instance_of(Bummr::Outdated)
+            .to receive(:outdated_gems).with(hash_including({ group: 'test' }))
+            .and_return outdated_gems
+
+          mock_bummr_standard_flow
 
           cli.update
         end
