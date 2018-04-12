@@ -3,6 +3,7 @@ module Bummr
     include Singleton
     include Log
 
+    desc "remove_commit", "Remove a commit from the history"
     def remove_commit(sha)
       log "Bad commit: #{commit_message_for(sha)}, #{sha}".color(:red)
       log "Resetting..."
@@ -10,7 +11,7 @@ module Bummr
 
       if yes? "Would you like to attempt to automatically remove this commit?"
         log "Removing commit..."
-        if system("git revert #{sha} --no-edit")
+        if system("git rebase -p --onto #{sha}^ #{sha} ")
           log "Successfully reverted bad commit...".color(:green)
           log "Re-testing build...".color(:green)
           system("bummr test")
