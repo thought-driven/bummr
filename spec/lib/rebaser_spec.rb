@@ -10,6 +10,7 @@ describe Bummr::Rebaser do
     allow(rebaser).to receive(:commit_message_for).and_return "commit message"
     allow(rebaser).to receive(:log)
     allow(rebaser).to receive(:system)
+    allow(rebaser).to receive(:yes?).and_return(true)
   end
 
   describe "#remove_commit" do
@@ -30,6 +31,7 @@ describe Bummr::Rebaser do
     context "successfully rebases the commit out" do
       before(:each) do
         allow(rebaser).to receive(:system).with(rebase_command).and_return true
+        allow(rebaser).to receive(:yes?).and_return true
       end
 
       it "logs the successful result" do

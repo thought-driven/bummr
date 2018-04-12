@@ -56,7 +56,10 @@ module Bummr
     def bisect
       check(false)
 
-      Bummr::Bisecter.instance.bisect
+      if yes? "Would you like to bisect in order to find which gem is causing " +
+              "your build to break? (y/n)"
+        Bummr::Bisecter.instance.bisect
+      end
     end
 
     private

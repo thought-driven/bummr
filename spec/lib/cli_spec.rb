@@ -134,6 +134,7 @@ describe Bummr::CLI do
   describe "#bisect" do
     it "calls Bummr:Bisecter.instance.bisect" do
       allow(cli).to receive(:check)
+      allow(cli).to receive(:yes?).and_return true
       allow_any_instance_of(Bummr::Bisecter).to receive(:bisect)
       bisecter = Bummr::Bisecter.instance
 
