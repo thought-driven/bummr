@@ -1,5 +1,5 @@
 module Bummr
-  class Rebaser < Thor
+  class Remover < Thor
     include Singleton
     include Log
 
@@ -10,8 +10,8 @@ module Bummr
 
       if yes? "Would you like to attempt to automatically remove this commit?"
         log "Removing commit..."
-        if system("git rebase -X ours --onto #{sha}^ #{sha}")
-          log "Successfully removed bad commit...".color(:green)
+        if system("git revert #{sha} --no-edit")
+          log "Successfully reverted bad commit...".color(:green)
           log "Re-testing build...".color(:green)
           system("bummr test")
         else

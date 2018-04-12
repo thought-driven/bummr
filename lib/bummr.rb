@@ -8,7 +8,7 @@ require 'thor'
 require "bummr/bisecter"
 require "bummr/check"
 require "bummr/outdated"
-require "bummr/rebaser"
+require "bummr/remover"
 require "bummr/updater"
 
 require "bummr/cli"
