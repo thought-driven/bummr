@@ -31,7 +31,8 @@ module Bummr
       end
 
       log "Commit: #{message}".color(:green)
-      system("git commit -am '#{message}'")
+      system("git add Gemfile Gemfile.lock")
+      system("git commit -m '#{message}'")
     end
 
     def updated_version_for(gem)
