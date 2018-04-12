@@ -63,6 +63,7 @@ instructions in the Installation section of this README.
 - Commits each gem update separately, with a commit message like:
 - Options:
   - `--all` to include indirect dependencies (`bummr` defaults to direct dependencies only)
+  - `--group` to update only gems from a specific group (i.e. `test`, `development`)
 
 `Update gemname from 0.0.1 to 0.0.2`
 
