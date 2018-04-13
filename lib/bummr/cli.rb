@@ -41,14 +41,17 @@ module Bummr
     desc "test", "Test for a successful build and bisect if necesssary"
     def test
       check(false)
-      system "bundle"
-      puts "Testing the build!".color(:green)
 
-      if system(TEST_COMMAND) == false
-        bisect
-      else
-        puts "Passed the build!".color(:green)
-        puts "See log/bummr.log for details".color(:yellow)
+      if yes? "Do you want to test the build now?"
+        system "bundle"
+        puts "Testing the build!".color(:green)
+
+        if system(TEST_COMMAND) == false
+          bisect
+        else
+          puts "Passed the build!".color(:green)
+          puts "See log/bummr.log for details".color(:yellow)
+        end
       end
     end
 
