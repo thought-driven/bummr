@@ -1,6 +1,19 @@
 require "spec_helper"
 
 describe Bummr::Git do
+  describe "#add" do
+    it "stages specified files with git" do
+      git = stub_git
+      files = "Gemfile Gemfile.lock"
+
+      git.add(files)
+
+      expect(git).to have_received(:system).with(
+        "git add #{files}"
+      )
+    end
+  end
+
   describe "#commit" do
     it "commits with a message" do
       git = stub_git
@@ -9,7 +22,7 @@ describe Bummr::Git do
       git.commit(commit_message)
 
       expect(git).to have_received(:system).with(
-        "git commit -am '#{commit_message}'"
+        "git commit -m '#{commit_message}'"
       )
     end
 
@@ -22,7 +35,7 @@ describe Bummr::Git do
         git.commit(commit_message)
 
         expect(git).to have_received(:system).with(
-          "git commit --no-verify -am '#{commit_message}'"
+          "git commit --no-verify -m '#{commit_message}'"
         )
       end
     end

@@ -86,11 +86,12 @@ describe Bummr::Updater do
           "Update #{gem[:name]} from #{gem[:installed]} to #{intermediate_version}"
         allow(updater).to receive(:system)
         allow(updater).to receive(:log)
+        allow(git).to receive(:add)
         allow(git).to receive(:commit)
 
         updater.update_gem(gem, 0)
 
-        expect(updater).to have_received(:system).with("git add Gemfile Gemfile.lock")
+        expect(git).to have_received(:add).with("Gemfile Gemfile.lock")
         expect(git).to have_received(:commit).with(commit_message)
       end
     end
@@ -116,11 +117,12 @@ describe Bummr::Updater do
           "Update #{gem[:name]} from #{gem[:installed]} to #{gem[:newest]}"
         allow(updater).to receive(:system)
         allow(updater).to receive(:log)
+        allow(git).to receive(:add)
         allow(git).to receive(:commit)
 
         updater.update_gem(gem, 0)
 
-        expect(updater).to have_received(:system).with("git add Gemfile Gemfile.lock")
+        expect(git).to have_received(:add).with("Gemfile Gemfile.lock")
         expect(git).to have_received(:commit).with(commit_message)
       end
     end

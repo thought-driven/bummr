@@ -7,8 +7,12 @@ module Bummr
       @git_commit = ENV.fetch("BUMMR_GIT_COMMIT") { "git commit" }
     end
 
+    def add(files)
+      system("git add #{files}")
+    end
+
     def commit(message)
-      system("#{git_commit} -am '#{message}'")
+      system("#{git_commit} -m '#{message}'")
     end
 
     private
