@@ -12,6 +12,7 @@ module Bummr
     end
 
     def commit(message)
+      log "Commit: #{message}".color(:green)
       system("#{git_commit} -m '#{message}'")
     end
 

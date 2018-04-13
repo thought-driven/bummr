@@ -101,17 +101,6 @@ describe Bummr::Updater do
         allow(updater).to receive(:updated_version_for).and_return newest
       end
 
-      it "logs the commit" do
-        commit_message =
-          "Commit: Update #{gem[:name]} from #{gem[:installed]} to #{gem[:newest]}".color(:green)
-        allow(updater).to receive(:system)
-        allow(updater).to receive(:log)
-
-        updater.update_gem(gem, 0)
-
-        expect(updater).to have_received(:log).with commit_message
-      end
-
       it "commits" do
         commit_message =
           "Update #{gem[:name]} from #{gem[:installed]} to #{gem[:newest]}"

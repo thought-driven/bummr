@@ -15,6 +15,17 @@ describe Bummr::Git do
   end
 
   describe "#commit" do
+    it "logs the commit" do
+      git = stub_git
+      commit_message = "Update Foo from 0.0.1 to 0.0.2"
+
+      git.commit(commit_message)
+
+      expect(git).to have_received(:log).with(
+        /Commit: #{commit_message}/
+      )
+    end
+
     it "commits with a message" do
       git = stub_git
       commit_message = "Update Foo from 0.0.1 to 0.0.2"
