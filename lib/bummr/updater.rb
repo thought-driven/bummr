@@ -19,7 +19,12 @@ module Bummr
       system("bundle update #{gem[:name]}")
 
       updated_version = updated_version_for(gem)
-      message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
+
+      if (updated_version)
+        message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
+      else
+        message = "Update dependencies for #{gem[:name]}"
+      end
 
       if gem[:installed] == updated_version
         log("#{gem[:name]} not updated")
@@ -36,10 +41,9 @@ module Bummr
     end
 
     def updated_version_for(gem)
-      if (gem[:name].include?("(") && gem[:name].include?(")"))
+      begin
         `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
-      else
-        "?"
+      rescue Error
       end
     end
   end
