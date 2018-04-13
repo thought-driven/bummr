@@ -14,6 +14,7 @@ module Bummr
     method_option :all, type: :boolean, default: false
     method_option :group, type: :string
     def update
+      system("bundle install")
       ask_questions
 
       if yes? "Are you ready to use Bummr? (y/n)"
