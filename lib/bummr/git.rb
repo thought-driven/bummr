@@ -16,6 +16,10 @@ module Bummr
       system("#{git_commit} -m '#{message}'")
     end
 
+    def rebase_interactive(sha)
+      system("git rebase -i #{BASE_BRANCH}")
+    end
+
     def message(sha)
       `git log --pretty=format:'%s' -n 1 #{sha}`
     end
