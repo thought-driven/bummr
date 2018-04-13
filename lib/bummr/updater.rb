@@ -4,6 +4,7 @@ module Bummr
 
     def initialize(outdated_gems)
       @outdated_gems = outdated_gems
+      @git = Bummr::Git.instance
     end
 
     def update_gems
@@ -37,7 +38,7 @@ module Bummr
 
       log "Commit: #{message}".color(:green)
       system("git add Gemfile Gemfile.lock")
-      system("git commit -m '#{message}'")
+      git.commit(message)
     end
 
     def updated_version_for(gem)
@@ -46,6 +47,10 @@ module Bummr
       rescue Error
       end
     end
+
+    private
+
+    attr_reader :git
   end
 end
 
