@@ -11,7 +11,7 @@ module Bummr
 
       if yes? "Would you like to attempt to automatically remove this commit?"
         log "Removing commit..."
-        if system("git rebase -p --onto #{sha}^ #{sha}")
+        if system("git rebase -X theirs -p --onto #{sha}^ #{sha}")
           log "Successfully reverted bad commit...".color(:green)
           log "Re-testing build...".color(:green)
           system("bummr test")
