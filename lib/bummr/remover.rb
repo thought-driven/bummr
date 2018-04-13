@@ -9,18 +9,18 @@ module Bummr
       log "Resetting..."
       system("git bisect reset")
 
-      if yes? "Would you like to attempt to automatically remove this commit?"
-        log "Removing commit..."
-        if system("git rebase -X theirs -p --onto #{sha}^ #{sha}")
-          log "Successfully reverted bad commit...".color(:green)
-          log "Re-testing build...".color(:green)
-          system("bummr test")
-        else
-          log "Could not automatically remove this commit!".color(:red)
-          log "Please resolve conflicts, then 'git rebase --continue'."
-          log "Run 'bummr test' again once the rebase is complete"
-        end
-      end
+      message = "\nThe commit:\n\n `#{sha} #{commit_message_for(sha)}`\n\n" +
+        "Is breaking the build.\n\n" +
+        "Please do one of the following: \n\n" +
+        " 1. Update your code to work with the latest version of this gem.\n\n" +
+        " 2. Perform the following steps to lock the gem version:\n\n" +
+        "    - `git reset --hard master`\n" +
+        "    - Lock the version of this Gem in your Gemfile.\n" +
+        "    - Commit the changes.\n" +
+        "    - Run `bummr update` again.\n\n" +
+        "Lord Bummr\n\n"
+
+      puts message.color(:yellow)
     end
 
     private
