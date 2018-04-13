@@ -33,7 +33,7 @@ describe Bummr::CLI do
         expect(cli).to receive(:yes?).and_return(true)
         expect(cli).to receive(:check)
         expect(cli).to receive(:log)
-        expect(cli).to receive(:system).with("bundle")
+        expect(cli).to receive(:system).with("bundle install")
         expect(Bummr::Updater).to receive(:new).with(outdated_gems).and_return updater
         expect(cli).to receive(:system).with("git rebase -i #{BASE_BRANCH}")
         expect(cli).to receive(:test)
@@ -48,7 +48,7 @@ describe Bummr::CLI do
           expect(cli).to receive(:yes?).and_return(true)
           expect(cli).to receive(:check)
           expect(cli).to receive(:log)
-          expect(cli).to receive(:system).with("bundle")
+          expect(cli).to receive(:system).with("bundle install")
           expect(cli).to receive(:puts).with("No outdated gems to update".color(:green))
 
           cli.update
@@ -102,6 +102,7 @@ describe Bummr::CLI do
       allow(cli).to receive(:check)
       allow(cli).to receive(:system)
       allow(cli).to receive(:bisect)
+      allow(cli).to receive(:yes?).and_return true
     end
 
     context "build passes" do
@@ -111,7 +112,7 @@ describe Bummr::CLI do
         cli.test
 
         expect(cli).to have_received(:check).with(false)
-        expect(cli).to have_received(:system).with("bundle")
+        expect(cli).to have_received(:system).with("bundle install")
         expect(cli).to have_received(:system).with("bundle exec rake")
         expect(cli).not_to have_received(:bisect)
       end
@@ -124,7 +125,7 @@ describe Bummr::CLI do
         cli.test
 
         expect(cli).to have_received(:check).with(false)
-        expect(cli).to have_received(:system).with("bundle")
+        expect(cli).to have_received(:system).with("bundle install")
         expect(cli).to have_received(:system).with("bundle exec rake")
         expect(cli).to have_received(:bisect)
       end

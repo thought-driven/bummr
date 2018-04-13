@@ -27,34 +27,5 @@ describe Bummr::Remover do
 
       expect(remover).to have_received(:system).with("git bisect reset")
     end
-
-    context "successfully reverts the commit" do
-      before(:each) do
-        allow(remover).to receive(:system).with(remove_command).and_return true
-        allow(remover).to receive(:yes?).and_return true
-      end
-
-      it "logs the successful result" do
-        remover.remove_commit(sha)
-
-        expect(remover).to have_received(:log).with(
-          "Successfully reverted bad commit...".color(:green)
-        )
-      end
-    end
-
-    context "fails to revert the commit" do
-      before(:each) do
-        allow(remover).to receive(:system).with(remove_command).and_return false
-      end
-
-      it "logs the failure" do
-        remover.remove_commit(sha)
-
-        expect(remover).to have_received(:log).with(
-          "Could not automatically remove this commit!".color(:red)
-        )
-      end
-    end
   end
 end

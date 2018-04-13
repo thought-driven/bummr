@@ -20,7 +20,6 @@ module Bummr
       if yes? "Are you ready to use Bummr? (y/n)"
         check
         log("Bummr update initiated #{Time.now}")
-        system("bundle")
 
         outdated_gems = Bummr::Outdated.instance.outdated_gems(
           all_gems: options[:all], group: options[:group]
@@ -44,7 +43,7 @@ module Bummr
       check(false)
 
       if yes? "Do you want to test the build now?"
-        system "bundle"
+        system "bundle install"
         puts "Testing the build!".color(:green)
 
         if system(TEST_COMMAND) == false
