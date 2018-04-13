@@ -65,6 +65,11 @@ module Bummr
       end
     end
 
+    desc "remove_commit", "Remove a commit from the history"
+    def remove_commit(sha)
+      Bummr::Remover.instance.remove_commit(sha)
+    end
+
     private
 
     def ask_questions
