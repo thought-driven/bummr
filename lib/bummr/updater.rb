@@ -36,7 +36,11 @@ module Bummr
     end
 
     def updated_version_for(gem)
-      `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
+      if (gem[:name].include?("(") && gem[:name].include?(")"))
+        `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
+      else
+        "?"
+      end
     end
   end
 end
