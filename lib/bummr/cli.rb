@@ -64,13 +64,32 @@ module Bummr
 
     def ask_questions
       puts "To run Bummr, you must:"
-      puts "- Be in the root path of a clean git branch off of #{BASE_BRANCH}"
+      puts "- Be in the root path of a clean git branch off of " + "#{BASE_BRANCH}".color(:yellow)
       puts "- Have no commits or local changes"
       puts "- Have a 'log' directory, where we can place logs"
       puts "- Have your build configured to fail fast (recommended)"
       puts "- Have locked any Gem version that you don't wish to update in your Gemfile"
       puts "- It is recommended that you lock your versions of `ruby` and `rails` in your `Gemfile`"
-      puts "Your test command is: '#{TEST_COMMAND}'"
+      puts "\n"
+      puts "Your test command is: " + "'#{TEST_COMMAND}'".color(:yellow)
+      puts "\n"
+      print_received_options
+    end
+
+    def print_received_options
+      unless options.empty?
+        puts "Bummr will run with the following options:"
+
+        if !options[:all].nil?
+          puts "--all: ".color(:yellow) +
+            "Bummr will also include indirect dependencies (the default is direct dependencies only)"
+        end
+
+        if !options[:group].nil?
+          puts "--group #{options[:group]}: ".color(:yellow) +
+            "Only gems belonging to the #{options[:group].color(:yellow)} group will be updated"
+        end
+      end
     end
   end
 end
