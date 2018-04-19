@@ -14,12 +14,12 @@ module Bummr
     method_option :all, type: :boolean, default: false
     method_option :group, type: :string
     def update
+      system("bundle install")
       ask_questions
 
       if yes? "Are you ready to use Bummr? (y/n)"
         check
         log("Bummr update initiated #{Time.now}")
-        system("bundle")
 
         outdated_gems = Bummr::Outdated.instance.outdated_gems(
           all_gems: options[:all], group: options[:group]
@@ -41,15 +41,17 @@ module Bummr
     desc "test", "Test for a successful build and bisect if necesssary"
     def test
       check(false)
-      system "bundle"
-      puts "Testing the build!".color(:green)
 
-      if system(TEST_COMMAND) == false
-        bisect
-      else
-        puts "Passed the build!".color(:green)
-        puts "See log/bummr.log for details".color(:yellow)
-        system("cat log/bummr.log")
+      if yes? "Do you want to test the build now?"
+        system "bundle install"
+        puts "Testing the build!".color(:green)
+
+        if system(TEST_COMMAND) == false
+          bisect
+        else
+          puts "Passed the build!".color(:green)
+          puts "See log/bummr.log for details".color(:yellow)
+        end
       end
     end
 
@@ -57,12 +59,21 @@ module Bummr
     def bisect
       check(false)
 
-      Bummr::Bisecter.instance.bisect
+      if yes? "Would you like to bisect in order to find which gem is causing " +
+              "your build to break? (y/n)"
+        Bummr::Bisecter.instance.bisect
+      end
+    end
+
+    desc "remove_commit", "Remove a commit from the history"
+    def remove_commit(sha)
+      Bummr::Remover.instance.remove_commit(sha)
     end
 
     private
 
     def ask_questions
+      puts "Bummr #{VERSION}"
       puts "To run Bummr, you must:"
       puts "- Be in the root path of a clean git branch off of #{BASE_BRANCH}"
       puts "- Have no commits or local changes"

@@ -78,15 +78,14 @@ describe Bummr::Updater do
 
       it "commits" do
         commit_message =
-          "'Update #{gem[:name]} from #{gem[:installed]} to #{intermediate_version}'"
+          "Update #{gem[:name]} from #{gem[:installed]} to #{intermediate_version}"
         allow(updater).to receive(:system)
         allow(updater).to receive(:log)
 
         updater.update_gem(gem, 0)
 
-        expect(updater).to have_received(:system).with(
-          "git commit -am #{commit_message}"
-        )
+        expect(updater).to have_received(:system).with("git add Gemfile Gemfile.lock")
+        expect(updater).to have_received(:system).with("git commit -m '#{commit_message}'")
       end
     end
 
@@ -114,9 +113,8 @@ describe Bummr::Updater do
 
         updater.update_gem(gem, 0)
 
-        expect(updater).to have_received(:system).with(
-          "git commit -am '#{commit_message}'"
-        )
+        expect(updater).to have_received(:system).with("git add Gemfile Gemfile.lock")
+        expect(updater).to have_received(:system).with("git commit -m '#{commit_message}'")
       end
     end
   end

@@ -19,7 +19,12 @@ module Bummr
       system("bundle update #{gem[:name]}")
 
       updated_version = updated_version_for(gem)
-      message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
+
+      if (updated_version)
+        message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
+      else
+        message = "Update dependencies for #{gem[:name]}"
+      end
 
       if gem[:installed] == updated_version
         log("#{gem[:name]} not updated")
@@ -31,11 +36,15 @@ module Bummr
       end
 
       log "Commit: #{message}".color(:green)
-      system("git commit -am '#{message}'")
+      system("git add Gemfile Gemfile.lock")
+      system("git commit -m '#{message}'")
     end
 
     def updated_version_for(gem)
-      `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
+      begin
+        `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
+      rescue Error
+      end
     end
   end
 end
