@@ -52,10 +52,24 @@ describe Bummr::Git do
     end
   end
 
+  describe "#message" do
+    it "displays the commit message for a given sha" do
+      git = stub_git
+      sha = "b39dcd8"
+
+      git.message(sha)
+
+      expect(git).to have_received(:`).with(
+        "git log --pretty=format:'%s' -n 1 #{sha}"
+      )
+    end
+  end
+
   def stub_git
     git = Bummr::Git.clone.instance
     allow(git).to receive(:log)
     allow(git).to receive(:system)
+    allow(git).to receive(:`)
     git
   end
 end

@@ -16,6 +16,10 @@ module Bummr
       system("#{git_commit} -m '#{message}'")
     end
 
+    def message(sha)
+      `git log --pretty=format:'%s' -n 1 #{sha}`
+    end
+
     private
 
     attr_reader :git_commit
