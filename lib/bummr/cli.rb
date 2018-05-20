@@ -1,9 +1,11 @@
 TEST_COMMAND = ENV["BUMMR_TEST"] || "bundle exec rake"
 BASE_BRANCH = ENV["BASE_BRANCH"] || "master"
+HEADLESS = ENV["BUMMR_HEADLESS"] || false
 
 module Bummr
   class CLI < Thor
     include Bummr::Log
+    include Bummr::Prompt
 
     desc "check", "Run automated checks to see if bummr can be run"
     def check(fullcheck=true)

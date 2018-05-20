@@ -1,6 +1,7 @@
 module Bummr
   class Check < Thor
     include Singleton
+    include Bummr::Prompt
 
     desc "check", "Run automated checks to see if bummr can be run"
     def check(fullcheck=true)
