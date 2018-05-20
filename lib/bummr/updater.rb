@@ -1,10 +1,10 @@
 module Bummr
   class Updater
     include Log
+    include Scm
 
     def initialize(outdated_gems)
       @outdated_gems = outdated_gems
-      @git = Bummr::Git.instance
     end
 
     def update_gems
@@ -46,10 +46,6 @@ module Bummr
       rescue Error
       end
     end
-
-    private
-
-    attr_reader :git
   end
 end
 

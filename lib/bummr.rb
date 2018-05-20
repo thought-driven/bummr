@@ -1,5 +1,6 @@
 # grouped by dependency order than alpha
 require 'bummr/log'
+require "bummr/scm"
 require 'rainbow/ext/string'
 require 'open3'
 require 'singleton'
