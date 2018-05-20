@@ -15,7 +15,7 @@ module Bummr
     method_option :group, type: :string
     def update
       system("bundle install")
-      ask_questions
+      display_info
 
       if yes? "Are you ready to use Bummr? (y/n)"
         check
@@ -72,7 +72,7 @@ module Bummr
 
     private
 
-    def ask_questions
+    def display_info
       puts "Bummr #{VERSION}"
       puts "To run Bummr, you must:"
       puts "- Be in the root path of a clean git branch off of #{BASE_BRANCH}"
