@@ -25,9 +25,16 @@ describe "bummr update command" do
     session.run("sed -i.bak 's/, \"~> 10.0\"//' Gemfile")
 
     session.run("mkdir -p log")
-    session.run("git init .")
-    session.run("git add .")
-    session.run("git commit -m 'Initial commit'")
+
+    expect(session.run("git init .")).
+      to be_a_success.and have_stdout("Initialized empty Git repository")
+
+    session.run("git config user.name 'Bummr Test'")
+    session.run("git config user.email 'test@example.com'")
+
+    expect(session.run("git add . && git commit -m 'Initial commit'")).
+      to be_a_success.and have_stdout("Initial commit")
+
     session.run("git checkout -b bummr-branch")
 
     update_result = session.run(
