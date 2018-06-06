@@ -13,14 +13,12 @@ describe "bummr update command" do
     RUBY
 
     session.create_file "Rakefile", <<~RUBY
-      task :say_hi do
+      task :default do
         puts "Hello from the Rakefile"
       end
-
-      task default: :say_hi
     RUBY
 
-    expect(session.run("bundle install")).
+    expect(session.run("bundle install --retry 3")).
       to be_a_success.and have_stdout(/bummr .* from source/)
 
     # Now allow newer versions of Rake to be installed
@@ -50,8 +48,5 @@ describe "bummr update command" do
 
     expect(session.run("bundle show")).
       to be_a_success.and have_stdout(/rake\s\(1[1-9]/)
-
-    expect(session.run("bundle exec rake")).
-      to be_a_success.and have_stdout("Hello from the Rakefile")
   end
 end
