@@ -36,7 +36,7 @@ module Bummr
       end
 
       log "Commit: #{message}".color(:green)
-      system("git add Gemfile Gemfile.lock")
+      system("git add Gemfile Gemfile.lock vendor/cache")
       system("git commit -m '#{message}'")
     end
 
