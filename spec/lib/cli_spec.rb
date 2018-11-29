@@ -6,6 +6,7 @@ describe Bummr::CLI do
   let(:options) { {} }
   let(:config) { { pretend: true } }
   let(:cli) { described_class.new(args, options, config) }
+  let(:git) { Bummr::Git.instance }
   let(:outdated_gems) {
     [
       { name: "myGem", installed: "0.3.2", newest: "0.3.5" },
@@ -35,8 +36,8 @@ describe Bummr::CLI do
         expect(cli).to receive(:log)
         expect(cli).to receive(:system).with("bundle install")
         expect(Bummr::Updater).to receive(:new).with(outdated_gems).and_return updater
-        expect(cli).to receive(:system).with("git rebase -i #{BASE_BRANCH}")
         expect(cli).to receive(:test)
+        expect(git).to receive(:rebase_interactive).with(BASE_BRANCH)
       end
 
       context "and there are no outdated gems" do
