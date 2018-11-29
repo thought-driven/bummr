@@ -1,13 +1,11 @@
 require "spec_helper"
 
 describe Bummr::Remover do
-  # let(:commit_message) { "test commit message" }
   let(:remover) { Bummr::Remover.instance }
+  let(:git) { Bummr::Git.instance }
   let(:sha) { "testsha" }
-  let(:remove_command) { "git rebase -p --onto #{sha}^ #{sha}" }
 
   before do
-    allow(remover).to receive(:commit_message_for).and_return "commit message"
     allow(remover).to receive(:log)
     allow(remover).to receive(:system)
     allow(remover).to receive(:yes?).and_return(true)
@@ -15,6 +13,8 @@ describe Bummr::Remover do
 
   describe "#remove_commit" do
     it "logs the bad commit" do
+      allow(git).to receive(:message).and_return("commit message")
+
       remover.remove_commit(sha)
 
       expect(remover).to have_received(:log).with(

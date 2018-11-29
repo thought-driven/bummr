@@ -4,6 +4,7 @@ BASE_BRANCH = ENV["BASE_BRANCH"] || "master"
 module Bummr
   class CLI < Thor
     include Bummr::Log
+    include Bummr::Scm
 
     desc "check", "Run automated checks to see if bummr can be run"
     def check(fullcheck=true)
@@ -30,7 +31,7 @@ module Bummr
         else
           Bummr::Updater.new(outdated_gems).update_gems
 
-          system("git rebase -i #{BASE_BRANCH}")
+          git.rebase_interactive(BASE_BRANCH)
           test
         end
       else

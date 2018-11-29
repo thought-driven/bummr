@@ -1,6 +1,7 @@
 module Bummr
   class Updater
     include Log
+    include Scm
 
     def initialize(outdated_gems)
       @outdated_gems = outdated_gems
@@ -35,9 +36,8 @@ module Bummr
         log("#{gem[:name]} not updated from #{gem[:installed]} to latest: #{gem[:newest]}")
       end
 
-      log "Commit: #{message}".color(:green)
-      system("git add Gemfile Gemfile.lock")
-      system("git commit -m '#{message}'")
+      git.add("Gemfile Gemfile.lock")
+      git.commit(message)
     end
 
     def updated_version_for(gem)
