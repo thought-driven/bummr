@@ -36,7 +36,7 @@ module Bummr
         log("#{gem[:name]} not updated from #{gem[:installed]} to latest: #{gem[:newest]}")
       end
 
-      system("git add Gemfile Gemfile.lock vendor/cache")
+      git.add("Gemfile Gemfile.lock vendor/cache")
       git.commit(message)
     end
 
