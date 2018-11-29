@@ -49,11 +49,12 @@ instructions in the Installation section of this README.
 - After installing, create a new, clean branch off of your `master` branch.
 - Run `bummr update`. This may take some time.
 - `Bummr` will give you the opportunity to interactively rebase your branch
-  before running the tests. Delete any commits for gems which you don't want
-  to update and close the file.
+  before running the tests. Careful.
 - At this point, you can leave `bummr` to work for some time.
-- If your build fails, `bummr` will attempt to automatically remove breaking
-  commits, until the build passes, logging any failures to `/log/bummr.log`.
+- If your build fails, `bummr` will notify you of failures, logging the failures to
+  `log/bummr.log`. At this point it is recommended that you lock that gem version in 
+  your Gemfile and start the process over from the top. Alternatively, you may wish 
+  to implement code changes which fix the problem.
 - Once your build passes, open a pull-request and merge it to your `master` branch.
 
 ##### `bummr update`
