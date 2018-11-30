@@ -11,9 +11,16 @@ module Bummr
       Bummr::Check.instance.check(fullcheck)
     end
 
-    desc "update", "Update outdated gems, run tests, bisect if tests fail"
+    desc "update",
+      "Update outdated gems, run tests, bisect if tests fail\n\n" +
+      "--all: Update indirect dependencies\n" +
+      "--group: Specify a group from the Gemfile to update\n" +
+      "\n"
+
+
     method_option :all, type: :boolean, default: false
     method_option :group, type: :string
+
     def update
       system("bundle install")
       ask_questions
@@ -89,19 +96,13 @@ module Bummr
     end
 
     def print_received_options
-      unless options.empty?
-        puts "Bummr will run with the following options:"
+      puts "Bummr will run with the following options:"
 
-        if !options[:all].nil?
-          puts "--all: ".color(:yellow) +
-            "Bummr will also include indirect dependencies (the default is direct dependencies only)"
-        end
-
-        if !options[:group].nil?
-          puts "--group #{options[:group]}: ".color(:yellow) +
-            "Only gems belonging to the #{options[:group].color(:yellow)} group will be updated"
-        end
+      options.each do |key, value|
+        puts "--#{key.color(:yellow)}: #{value}"
       end
+
+      puts "\nRun `#{"bummr help update".color(:yellow)}` for more information.\n\n"
     end
   end
 end
