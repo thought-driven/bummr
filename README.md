@@ -15,13 +15,16 @@ build in separate commits, and logs the name and sha of each gem that fails.
 Bummr assumes you have good test coverage and follow a [pull-request workflow]
 with `master` as your default branch.
 
-Please note that this gem is *alpha* stage and may have bugs.
+Please note that this gem is _alpha_ stage and may have bugs.
 
 ## Installation
 
 ```bash
 $ gem install bummr
 ```
+
+To run headless (skip interactive rebasing/confirmation), use
+`BUMMR_HEADLESS=true bundle exec bummr update`.
 
 By default, bummr will use `bundle exec rake` to run your build.
 
@@ -52,8 +55,8 @@ instructions in the Installation section of this README.
   before running the tests. Careful.
 - At this point, you can leave `bummr` to work for some time.
 - If your build fails, `bummr` will notify you of failures, logging the failures to
-  `log/bummr.log`. At this point it is recommended that you lock that gem version in 
-  your Gemfile and start the process over from the top. Alternatively, you may wish 
+  `log/bummr.log`. At this point it is recommended that you lock that gem version in
+  your Gemfile and start the process over from the top. Alternatively, you may wish
   to implement code changes which fix the problem.
 - Once your build passes, open a pull-request and merge it to your `master` branch.
 
