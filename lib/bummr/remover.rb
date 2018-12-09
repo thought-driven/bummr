@@ -18,8 +18,7 @@ module Bummr
         "    - `git reset --hard master`\n" +
         "    - Lock the version of this Gem in your Gemfile.\n" +
         "    - Commit the changes.\n" +
-        "    - Run `bummr update` again.\n\n" +
-        "Lord Bummr\n\n"
+        "    - Run `bummr update` again.\n\n"
 
       puts message.color(:yellow)
     end
