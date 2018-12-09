@@ -113,6 +113,10 @@ wish to use it with.
 
 `rake` will run the suite of unit tests.
 
+The suite relies on Oliver Peate's [jet
+black](https://github.com/odlp/jet_black) testing library for command line feature
+tests.
+
 ## Thank you!
 
 Thanks to Ryan Sonnek for the [Bundler
