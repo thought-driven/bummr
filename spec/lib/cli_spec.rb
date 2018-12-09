@@ -30,7 +30,7 @@ describe Bummr::CLI do
         updater = double
         allow(updater).to receive(:update_gems)
 
-        expect(cli).to receive(:ask_questions)
+        expect(cli).to receive(:display_info)
         expect(cli).to receive(:yes?).and_return(true)
         expect(cli).to receive(:check)
         expect(cli).to receive(:log)
@@ -45,7 +45,7 @@ describe Bummr::CLI do
           allow_any_instance_of(Bummr::Outdated).to receive(:outdated_gems)
             .and_return []
 
-          expect(cli).to receive(:ask_questions)
+          expect(cli).to receive(:display_info)
           expect(cli).to receive(:yes?).and_return(true)
           expect(cli).to receive(:check)
           expect(cli).to receive(:log)
@@ -90,6 +90,24 @@ describe Bummr::CLI do
             .and_return outdated_gems
 
           mock_bummr_standard_flow
+
+          cli.update
+        end
+      end
+    end
+
+    context "when in headless mode" do
+      context "and there are no outdated gems" do
+        it "informs that there are no outdated gems" do
+          stub_const("HEADLESS", true)
+          allow_any_instance_of(Bummr::Outdated).to receive(:outdated_gems)
+            .and_return []
+
+          expect(cli).to receive(:display_info)
+          expect(cli).to receive(:check)
+          expect(cli).to receive(:log)
+          expect(cli).to receive(:system).with("bundle install")
+          expect(cli).to receive(:puts).with("No outdated gems to update".color(:green))
 
           cli.update
         end

@@ -1,9 +1,11 @@
 TEST_COMMAND = ENV["BUMMR_TEST"] || "bundle exec rake"
 BASE_BRANCH = ENV["BASE_BRANCH"] || "master"
+HEADLESS = ENV["BUMMR_HEADLESS"] || false
 
 module Bummr
   class CLI < Thor
     include Bummr::Log
+    include Bummr::Prompt
     include Bummr::Scm
 
     desc "check", "Run automated checks to see if bummr can be run"
@@ -23,7 +25,7 @@ module Bummr
 
     def update
       system("bundle install")
-      ask_questions
+      display_info
 
       if yes? "Are you ready to use Bummr? (y/n)"
         check
@@ -80,7 +82,7 @@ module Bummr
 
     private
 
-    def ask_questions
+    def display_info
       puts "Bummr #{VERSION}"
       puts "To run Bummr, you must:"
       puts "- Be in the root path of a clean git branch off of " + "#{BASE_BRANCH}".color(:yellow)
