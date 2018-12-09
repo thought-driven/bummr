@@ -17,7 +17,7 @@ module Bummr
     end
 
     def rebase_interactive(sha)
-      system("git rebase -i #{BASE_BRANCH}")
+      system("git rebase -i #{BASE_BRANCH}") unless HEADLESS
     end
 
     def message(sha)

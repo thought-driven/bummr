@@ -91,7 +91,9 @@ describe Bummr::Updater do
 
         updater.update_gem(gem, 0)
 
-        expect(git).to have_received(:add).with("Gemfile Gemfile.lock vendor/cache")
+        expect(git).to have_received(:add).with("Gemfile")
+        expect(git).to have_received(:add).with("Gemfile.lock")
+        expect(git).to have_received(:add).with("vendor/cache")
         expect(git).to have_received(:commit).with(commit_message)
       end
     end
@@ -111,7 +113,9 @@ describe Bummr::Updater do
 
         updater.update_gem(gem, 0)
 
-        expect(git).to have_received(:add).with("Gemfile Gemfile.lock vendor/cache")
+        expect(git).to have_received(:add).with("Gemfile")
+        expect(git).to have_received(:add).with("Gemfile.lock")
+        expect(git).to have_received(:add).with("vendor/cache")
         expect(git).to have_received(:commit).with(commit_message)
       end
     end

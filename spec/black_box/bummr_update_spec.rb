@@ -40,7 +40,7 @@ describe "bummr update command" do
     update_result = session.run(
       "bundle exec bummr update",
       stdin: "y\ny\ny\n",
-      env: { EDITOR: nil },
+      env: { EDITOR: nil, BUMMR_HEADLESS: "true" },
     )
 
     rake_gem_updated = /Update rake from 10\.\d\.\d to 1[1-9]\.\d\.\d/
