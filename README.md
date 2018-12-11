@@ -63,7 +63,8 @@ instructions in the Installation section of this README.
 ##### `bummr update`
 
 - Finds all your outdated gems
-- Updates them each individually, using `bundle update --source #{gemname}`
+- Updates them each individually, using `bundle update --source #{gemname}`. To use a less
+  conservative update strategy, start `bummr update` with the `--all` option.
 - Commits each gem update separately, with a commit message like:
 - Options:
   - `--all` to include indirect dependencies (`bummr` defaults to direct dependencies only)
@@ -93,12 +94,6 @@ instructions in the Installation section of this README.
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.
-- Bummr conservatively updates gems using `bundle update --source gemname`
-- Bummr automatically rebases out commits which fail the build using an "ours"
-  merge strategy.
-- Bummr may not be able to remove the bad commit due to a merge conflict, in
-  which case you will have to remove it manually, continue the rebase, and
-  run `bummr test` again.
 
 ## License
 
