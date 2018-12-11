@@ -113,9 +113,9 @@ wish to use it with.
 
 `rake` will run the suite of unit tests.
 
-I'd like to create feature tests, but because Bummr relies on command line
-manipulations which need to be doubled, I'm waiting on [this
-issue](https://github.com/bjoernalbers/aruba-doubles/issues/5)
+The suite relies on Oliver Peate's [jet
+black](https://github.com/odlp/jet_black) testing library for command line feature
+tests.
 
 ## Thank you!
 
