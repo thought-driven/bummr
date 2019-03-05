@@ -83,9 +83,9 @@ instructions in the Installation section of this README.
 ##### `bummr bisect`
 
 - `git bisect`s against master.
-- Finds the bad commit and attempts to remove it.
+- Upon finding the bad commit, runs `git bisect reset` and notifies the developer on 
+  how best to proceed.
 - Logs the bad commit in `log/bummr.log`.
-- Runs `bummr test`.
 
 ## Notes
 
