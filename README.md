@@ -64,6 +64,7 @@ instructions in the Installation section of this README.
 - Options:
   - `--all` to include indirect dependencies (`bummr` defaults to direct dependencies only)
   - `--group` to update only gems from a specific group (i.e. `test`, `development`)
+  - `--gem` to update only a specific gem (i.e. `tzinfo`)
 
 - Finds all your outdated gems
 - Updates them each individually, using `bundle update --source #{gemname}`. To use a less
@@ -85,7 +86,7 @@ Update gemname from 0.0.1 to 0.0.2
 ##### `bummr bisect`
 
 - `git bisect`s against master.
-- Upon finding the bad commit, runs `git bisect reset` and notifies the developer on 
+- Upon finding the bad commit, runs `git bisect reset` and notifies the developer on
   how best to proceed.
 - Logs the bad commit in `log/bummr.log`.
 

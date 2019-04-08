@@ -103,6 +103,27 @@ describe Bummr::Outdated do
         expect(gem_names).to include 'devise', 'rake', 'rails', 'spring'
       end
     end
+
+    describe "gem option" do
+      let(:stdoutput_from_spring_gem) {
+        output = String.new
+        output += "  * spring (newest 4.2.6, installed 4.2.5.1, requested ~> 4.2.0)"
+        StringIO.new(output)
+      }
+
+      it "lists outdated gems only from supplied gem" do
+        allow(Open3).to receive(:popen2)
+          .with("bundle outdated --strict spring")
+          .and_yield(nil, stdoutput_from_spring_gem)
+
+        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+
+        results = Bummr::Outdated.instance.outdated_gems(gem: :spring)
+        gem_names = results.map { |result| result[:name] }
+
+        expect(gem_names).to match_array ['spring']
+      end
+    end
   end
 
   describe "#parse_gem_from" do

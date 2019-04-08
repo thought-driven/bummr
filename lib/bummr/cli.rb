@@ -17,11 +17,13 @@ module Bummr
       "Update outdated gems, run tests, bisect if tests fail\n\n" +
       "--all: Update indirect dependencies\n" +
       "--group: Specify a group from the Gemfile to update\n" +
+      "--gem: Specify a specific gem to update\n" +
       "\n"
 
 
     method_option :all, type: :boolean, default: false
     method_option :group, type: :string
+    method_option :gem, type: :string
 
     def update
       system("bundle install")
@@ -32,7 +34,7 @@ module Bummr
         log("Bummr update initiated #{Time.now}")
 
         outdated_gems = Bummr::Outdated.instance.outdated_gems(
-          all_gems: options[:all], group: options[:group]
+          all_gems: options[:all], group: options[:group], gem: options[:gem]
         )
 
         if outdated_gems.empty?

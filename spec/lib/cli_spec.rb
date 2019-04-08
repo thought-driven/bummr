@@ -94,6 +94,20 @@ describe Bummr::CLI do
           cli.update
         end
       end
+
+      describe "gem option" do
+        it "requests only outdated specific gem from supplied be listed" do
+          options[:gem] = 'tzdata'
+
+          expect_any_instance_of(Bummr::Outdated)
+            .to receive(:outdated_gems).with(hash_including({ gem: 'tzdata' }))
+            .and_return outdated_gems
+
+          mock_bummr_standard_flow
+
+          cli.update
+        end
+      end
     end
 
     context "when in headless mode" do
