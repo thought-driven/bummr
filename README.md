@@ -61,16 +61,18 @@ instructions in the Installation section of this README.
 - Once your build passes, open a pull-request and merge it to your `master` branch.
 
 ##### `bummr update`
+- Options:
+  - `--all` to include indirect dependencies (`bummr` defaults to direct dependencies only)
+  - `--group` to update only gems from a specific group (i.e. `test`, `development`)
 
 - Finds all your outdated gems
 - Updates them each individually, using `bundle update --source #{gemname}`. To use a less
   conservative update strategy, start `bummr update` with the `--all` option.
 - Commits each gem update separately, with a commit message like:
-- Options:
-  - `--all` to include indirect dependencies (`bummr` defaults to direct dependencies only)
-  - `--group` to update only gems from a specific group (i.e. `test`, `development`)
 
-`Update gemname from 0.0.1 to 0.0.2`
+```
+Update gemname from 0.0.1 to 0.0.2
+```
 
 - Runs `git rebase -i master` to allow you the chance to review and make changes.
 - Runs `bummr test`
