@@ -39,7 +39,7 @@ environment variable: `export BASE_BRANCH='develop'`
 
 [run the build more than once]: https://gist.github.com/lpender/f6b55e7f3649db3b6df5
 
-## Usage:
+## Usage
 
 Using bummr can take anywhere from a few minutes to several hours, depending
 on the number of outdated gems you have and the number of tests in your test
