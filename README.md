@@ -17,7 +17,7 @@ with `master` as your default branch.
 
 Please note that this gem is _alpha_ stage and may have bugs.
 
-## Installation
+## Installation and Setup
 
 ```bash
 $ gem install bummr
