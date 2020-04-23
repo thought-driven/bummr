@@ -52,7 +52,7 @@ module Bummr
     def test
       check(false)
 
-      if yes? "Do you want to test the build now?"
+      if yes? "Do you want to test the build now? (y/n)"
         system "bundle install"
         puts "Testing the build!".color(:green)
 
