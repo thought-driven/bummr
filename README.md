@@ -7,7 +7,7 @@
 Updating Gems one by one is a bumm(e)r: especially when one gem causes your build
 to fail.
 
-Gems should be updated in [separate commits](http://ilikestuffblog.com/2012/07/01/you-should-update-one-gem-at-a-time-with-bundler-heres-how/).
+Gems should be updated in [separate commits](https://thoughtbot.com/blog/keep-your-gems-up-to-date).
 
 The bummr gem allows you to automatically update all gems which pass your
 build in separate commits, and logs the name and sha of each gem that fails.
