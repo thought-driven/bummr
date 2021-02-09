@@ -33,7 +33,7 @@ brittle tests and false positives.
 
 By default, bummr will assume your base branch is named `master`. If you would
 like to designate a different base branch, you can set the `BASE_BRANCH`
-environment variable: `export BASE_BRANCH='develop'`
+environment variable: `export BASE_BRANCH='main'`
 
 [run the build more than once]: https://gist.github.com/lpender/f6b55e7f3649db3b6df5
 
@@ -47,7 +47,7 @@ For the purpose of these instructions, we are assuming that your base branch is
 `master`. If you would like to specify a different base branch, see the
 instructions in the Installation section of this README.
 
-- After installing, create a new, clean branch off of your `master` branch.
+- After installing, create a new, clean branch off of your main branch.
 - Run `bummr update`. This may take some time.
 - `Bummr` will give you the opportunity to interactively rebase your branch
   before running the tests. Careful.
@@ -56,7 +56,7 @@ instructions in the Installation section of this README.
   `log/bummr.log`. At this point it is recommended that you lock that gem version in
   your Gemfile and start the process over from the top. Alternatively, you may wish
   to implement code changes which fix the problem.
-- Once your build passes, open a pull-request and merge it to your `master` branch.
+- Once your build passes, open a pull-request and merge it to your main branch.
 
 ##### `bummr update`
 - Options:
