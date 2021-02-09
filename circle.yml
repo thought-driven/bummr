@@ -1,3 +1,0 @@
-test:
-  post:
-    - bundle exec codeclimate-test-reporter
