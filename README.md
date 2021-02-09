@@ -14,7 +14,7 @@ build in separate commits, and logs the name and sha of each gem that fails.
 
 Bummr assumes you have good test coverage and follow a [pull-request workflow].
 
-By default, Bummr will assume your base branch is named `master`. If you would
+By default, bummr will assume your base branch is named `master`. If you would
 like to designate a different base branch, you can set the `BASE_BRANCH`
 environment variable: `export BASE_BRANCH='main'`
 
