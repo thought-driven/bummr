@@ -13,12 +13,10 @@ jobs:
       - run:
           name: Test
           command: bundle exec rake
-    post:
-      run:
-        name:
-          Report coverage to codeclimate
-        command:
-          - bundle exec codeclimate-test-reporter
+      - run:
+          name:
+            Report coverage to codeclimate
+          command: bundle exec codeclimate-test-reporter
 workflows:
   version: 2
   test:
