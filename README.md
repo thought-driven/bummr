@@ -12,8 +12,11 @@ Gems should be updated in [separate commits](https://thoughtbot.com/blog/keep-yo
 The bummr gem allows you to automatically update all gems which pass your
 build in separate commits, and logs the name and sha of each gem that fails.
 
-Bummr assumes you have good test coverage and follow a [pull-request workflow]
-with `master` as your default branch.
+Bummr assumes you have good test coverage and follow a [pull-request workflow].
+
+By default, Bummr will assume your base branch is named `master`. If you would
+like to designate a different base branch, you can set the `BASE_BRANCH`
+environment variable: `export BASE_BRANCH='main'`
 
 ## Setup
 
@@ -30,10 +33,6 @@ To customize your build command, `export BUMMR_TEST="./bummr-build.sh"`
 
 If you prefer, you can [run the build more than once], to protect against
 brittle tests and false positives.
-
-By default, bummr will assume your base branch is named `master`. If you would
-like to designate a different base branch, you can set the `BASE_BRANCH`
-environment variable: `export BASE_BRANCH='main'`
 
 [run the build more than once]: https://gist.github.com/lpender/f6b55e7f3649db3b6df5
 
