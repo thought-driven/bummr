@@ -11,6 +11,7 @@ module Bummr
       bundle_options =  ""
       bundle_options << " --strict" unless options[:all_gems]
       bundle_options << " --group #{options[:group]}" if options[:group]
+      bundle_options << " #{options[:gem]}" if options[:gem]
 
       Open3.popen2("bundle outdated" + bundle_options) do |_std_in, std_out|
         while line = std_out.gets
