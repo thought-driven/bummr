@@ -1,0 +1,26 @@
+version: 2.1,
+orbs:
+  ruby: circleci/ruby@1.1.2
+jobs:
+  test:
+    docker:
+      - image: cimg/ruby:2.7-node
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: bundle install
+      - run:
+          name: Test
+          command: bundle exec rake
+    post:
+      run:
+        name:
+          Report coverage to codeclimate
+        command:
+          - bundle exec codeclimate-test-reporter
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
