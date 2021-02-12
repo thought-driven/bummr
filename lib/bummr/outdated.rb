@@ -1,5 +1,6 @@
 require 'open3'
 require 'singleton'
+require 'bundler'
 
 module Bummr
   class Outdated
