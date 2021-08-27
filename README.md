@@ -18,6 +18,13 @@ By default, bummr will assume your base branch is named `master`. If you would
 like to designate a different base branch, you can set the `BASE_BRANCH`
 environment variable: `export BASE_BRANCH='main'`
 
+## Compatibility
+
+| Bundler Version | Bummr Version |
+| --------------- | ------------- |
+| <= 2.1          | <= 0.6.0      |
+| >= 2.2          | >= 1.0.0      |
+
 ## Setup
 
 ```bash
@@ -58,7 +65,9 @@ instructions in the Installation section of this README.
 - Once your build passes, open a pull-request and merge it to your main branch.
 
 ##### `bummr update`
+
 - Options:
+
   - `--all` to include indirect dependencies (`bummr` defaults to direct dependencies only)
   - `--group` to update only gems from a specific group (i.e. `test`, `development`)
   - `--gem` to update only a specific gem (i.e. `tzinfo`)
