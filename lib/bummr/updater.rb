@@ -45,7 +45,8 @@ module Bummr
     def updated_version_for(gem)
       begin
         `bundle list | grep " #{gem[:name]} "`.split('(')[1].split(')')[0]
-      rescue Error
+      rescue
+        # Do nothing
       end
     end
   end
