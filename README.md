@@ -1,6 +1,5 @@
 # Bummr
 
-[![CircleCI](https://circleci.com/gh/lpender/bummr.svg?style=shield)](https://circleci.com/gh/lpender/bummr)
 [![Code Climate](https://codeclimate.com/github/lpender/bummr/badges/gpa.svg)](https://codeclimate.com/github/lpender/bummr)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/52d6651bf8cd5e729b11/test_coverage)](https://codeclimate.com/github/lpender/bummr/test_coverage)
 
