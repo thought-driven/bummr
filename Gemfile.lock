@@ -1,0 +1,85 @@
+PATH
+  remote: .
+  specs:
+    bummr (0.6.0)
+      rainbow
+      thor
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.0.0.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    codeclimate-test-reporter (1.0.1)
+    coderay (1.1.1)
+    concurrent-ruby (1.0.2)
+    diff-lcs (1.2.5)
+    docile (1.1.5)
+    i18n (0.7.0)
+    jet_black (0.5.0)
+    json (2.0.2)
+    method_source (0.8.2)
+    minitest (5.9.1)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-nav (0.2.4)
+      pry (>= 0.9.10, < 0.11.0)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
+    rainbow (3.1.1)
+    rake (11.3.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-core (3.5.4)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-nc (0.3.0)
+      rspec (>= 3)
+      terminal-notifier (>= 1.4)
+    rspec-support (3.5.0)
+    simplecov (0.12.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
+    slop (3.6.0)
+    spring (2.0.0)
+      activesupport (>= 4.2)
+    terminal-notifier (1.7.1)
+    thor (0.19.1)
+    thread_safe (0.3.5)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bummr!
+  bundler
+  codeclimate-test-reporter (~> 1.0.0)
+  jet_black (~> 0.3)
+  pry
+  pry-nav
+  pry-remote
+  rake
+  rspec
+  rspec-nc
+  simplecov
+  spring
+
+BUNDLED WITH
+   2.4.22
