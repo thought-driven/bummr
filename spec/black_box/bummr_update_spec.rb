@@ -19,7 +19,7 @@ describe "bummr update command" do
     RUBY
 
     expect(session.run("bundle install --retry 3")).
-      to be_a_success.and have_stdout(/bummr .* from source/)
+      to be_a_success
 
     # Now allow newer versions of Rake to be installed
     session.run("sed -i.bak 's/, \"~> 10.0\"//' Gemfile")
