@@ -110,10 +110,12 @@ See LICENSE
 
 ## Developing
 
+Set version in `lib/bummr/version.rb`
+
 `rake build` to build locally
 
-`gem install --local ~/dev/mine/bummr/pkg/bummr-X.X.X.gem` in the app you
-wish to use it with.
+`gem install --local ./pkg/bummr-X.X.X.gem` with the ruby version of the app
+you'd like to use it with.
 
 `rake` will run the suite of unit tests.
 
