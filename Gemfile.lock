@@ -1,0 +1,73 @@
+PATH
+  remote: .
+  specs:
+    bummr (0.6.0)
+      rainbow
+      thor
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    codeclimate-test-reporter (1.0.9)
+      simplecov (<= 0.13)
+    coderay (1.1.3)
+    diff-lcs (1.5.1)
+    docile (1.1.5)
+    jet_black (0.7.1)
+    json (2.7.2)
+    method_source (1.1.0)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-nav (1.0.0)
+      pry (>= 0.9.10, < 0.15)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
+    rainbow (3.1.1)
+    rake (13.2.1)
+    rspec (3.13.0)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.0)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-nc (0.3.0)
+      rspec (>= 3)
+      terminal-notifier (>= 1.4)
+    rspec-support (3.13.1)
+    simplecov (0.13.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
+    slop (3.6.0)
+    spring (4.2.1)
+    terminal-notifier (2.0.0)
+    thor (1.3.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bummr!
+  bundler
+  codeclimate-test-reporter (~> 1.0.0)
+  jet_black (~> 0.3)
+  pry
+  pry-nav
+  pry-remote
+  rake
+  rspec
+  rspec-nc
+  simplecov
+  spring
+
+BUNDLED WITH
+   2.4.22
