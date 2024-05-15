@@ -20,7 +20,7 @@ GEM
     diff-lcs (1.5.1)
     docile (1.1.5)
     i18n (0.7.0)
-    jet_black (0.5.0)
+    jet_black (0.7.1)
     json (2.0.2)
     method_source (0.8.2)
     minitest (5.9.1)
