@@ -124,8 +124,8 @@ describe Bummr::Updater do
   describe "#updated_version_for" do
     it "returns the correct version from bundle list" do
       allow(updater).to receive(:`).with(
-        "bundle list | grep \" #{gem[:name]} \""
-      ).and_return("  * #{gem[:name]} (3.5.2)\n")
+        "bundle list --paths | grep \"#{gem[:name]}\""
+      ).and_return("asdf/asdf/asdf/#{gem[:name]}-3.5.2")
 
       expect(updater.updated_version_for(gem)).to eq "3.5.2"
     end
