@@ -16,15 +16,15 @@ module Bummr
     end
 
     def update_gem(gem, index)
-      puts "Updating #{gem[:name]}: #{index+1} of #{@outdated_gems.count}"
+      puts "Updating #{gem[:name]}: #{index + 1} of #{@outdated_gems.count}"
       system("bundle update #{gem[:name]}")
 
       updated_version = updated_version_for(gem)
 
-      if (updated_version)
-        message = "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
+      message = if updated_version
+        "Update #{gem[:name]} from #{gem[:installed]} to #{updated_version}"
       else
-        message = "Update dependencies for #{gem[:name]}"
+        "Update dependencies for #{gem[:name]}"
       end
 
       if gem[:installed] == updated_version
@@ -43,7 +43,8 @@ module Bummr
     end
 
     def updated_version_for(gem)
-      `bundle list | grep " #{gem[:name]} "`&.split('(')[1].split(')')[0]
+      string = `bundle list --paths | grep "#{gem[:name]}"`
+      string.match(/#{gem[:name]}-(.*)$/)[1]
     end
   end
 end

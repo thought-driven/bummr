@@ -41,7 +41,7 @@ describe Bummr::Check do
         allow(check)
           .to receive(:check_base_branch).and_call_original
         allow(check).to receive(:`).with('git rev-parse --abbrev-ref HEAD')
-          .and_return "master\n"
+          .and_return "main\n"
 
         check.check
 
@@ -108,7 +108,7 @@ describe Bummr::Check do
     context "check_diff fails" do
       before do
         allow(check).to receive(:check_diff).and_call_original
-        allow(check).to receive(:`).with('git diff master')
+        allow(check).to receive(:`).with('git diff main')
           .and_return "+ file"
       end
 
@@ -116,7 +116,7 @@ describe Bummr::Check do
         check.check(true)
 
         expect(check).to have_received(:puts)
-          .with("Please make sure that `git diff master` returns empty".color(:red))
+          .with("Please make sure that `git diff main` returns empty".color(:red))
         expect(check).to have_received(:yes?)
         expect(check).to have_received(:exit).with(0)
       end

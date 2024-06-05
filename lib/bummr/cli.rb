@@ -1,5 +1,5 @@
 TEST_COMMAND = ENV["BUMMR_TEST"] || "bundle exec rake"
-BASE_BRANCH = ENV["BASE_BRANCH"] || "master"
+BASE_BRANCH = ENV["BASE_BRANCH"] || "main"
 HEADLESS = ENV["BUMMR_HEADLESS"] || false
 
 module Bummr

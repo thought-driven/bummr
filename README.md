@@ -13,7 +13,7 @@ build in separate commits, and logs the name and sha of each gem that fails.
 
 Bummr assumes you have good test coverage and follow a [pull-request workflow].
 
-By default, bummr will assume your base branch is named `master`. If you would
+By default, bummr will assume your base branch is named `main`. If you would
 like to designate a different base branch, you can set the `BASE_BRANCH`
 environment variable: `export BASE_BRANCH='main'`
 
@@ -49,7 +49,7 @@ on the number of outdated gems you have and the number of tests in your test
 suite.
 
 For the purpose of these instructions, we are assuming that your base branch is
-`master`. If you would like to specify a different base branch, see the
+`main`. If you would like to specify a different base branch, see the
 instructions in the Installation section of this README.
 
 - After installing, create a new, clean branch off of your main branch.
@@ -80,7 +80,7 @@ instructions in the Installation section of this README.
 Update gemname from 0.0.1 to 0.0.2
 ```
 
-- Runs `git rebase -i master` to allow you the chance to review and make changes.
+- Runs `git rebase -i main` to allow you the chance to review and make changes.
 - Runs `bummr test`
 
 ##### `bummr test`
@@ -90,7 +90,7 @@ Update gemname from 0.0.1 to 0.0.2
 
 ##### `bummr bisect`
 
-- `git bisect`s against master.
+- `git bisect`s against main.
 - Upon finding the bad commit, runs `git bisect reset` and notifies the developer on
   how best to proceed.
 - Logs the bad commit in `log/bummr.log`.
@@ -98,7 +98,7 @@ Update gemname from 0.0.1 to 0.0.2
 ## Notes
 
 - Bummr assumes you have good test coverage and follow a [pull-request workflow]
-  with `master` as your default branch.
+  with `main` as your default branch.
 - Once the build passes, you can push your branch and create a pull-request!
 - You may wish to `tail -f log/bummr.log` in a separate terminal window so you
   can see which commits are being removed.
@@ -117,6 +117,8 @@ Set version in `lib/bummr/version.rb`
 you'd like to use it with.
 
 `rake` will run the suite of unit tests.
+
+`gem push ./pkg/bummr-x.x.x.gem` to publish new versions.
 
 The suite relies on Oliver Peate's [jet
 black](https://github.com/odlp/jet_black) testing library for command line feature

@@ -15,7 +15,7 @@ module Bummr
         "Please do one of the following: \n\n" +
         " 1. Update your code to work with the latest version of this gem.\n\n" +
         " 2. Perform the following steps to lock the gem version:\n\n" +
-        "    - `git reset --hard master`\n" +
+        "    - `git reset --hard main`\n" +
         "    - Lock the version of this Gem in your Gemfile.\n" +
         "    - Commit the changes.\n" +
         "    - Run `bummr update` again.\n\n"
