@@ -129,5 +129,16 @@ describe Bummr::Updater do
 
       expect(updater.updated_version_for(gem)).to eq "3.5.2"
     end
+
+    it "returns the correct version when there are similarly named gems" do
+      allow(updater).to receive(:`).with(
+        "bundle list --paths | grep \"#{gem[:name]}\""
+      ).and_return(<<~BUNDLE_LIST)
+        asdf/asdf/asdf/foo-#{gem[:name]}-1.2.3
+        asdf/asdf/asdf/#{gem[:name]}-3.5.2
+      BUNDLE_LIST
+
+      expect(updater.updated_version_for(gem)).to eq "3.5.2"
+    end
   end
 end
