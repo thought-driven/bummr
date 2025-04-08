@@ -18,7 +18,9 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  # Toolkit for building powerful command-line interfaces
   spec.add_dependency "thor"
+  # Colorize printed text on ANSI terminals
   spec.add_dependency "rainbow"
 
   spec.add_development_dependency "rspec"

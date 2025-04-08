@@ -20,6 +20,7 @@ module Bummr
       system("git rebase -i #{BASE_BRANCH}") unless HEADLESS
     end
 
+    # print only the commit subject line
     def message(sha)
       `git log --pretty=format:'%s' -n 1 #{sha}`
     end
