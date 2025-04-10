@@ -3,7 +3,7 @@ require "spec_helper"
 describe Bummr::Remover do
   let(:remover) { Bummr::Remover.instance }
   let(:git) { Bummr::Git.instance }
-  let(:sha) { "testsha" }
+  let(:sha) { "HEAD~1" }
 
   before do
     allow(remover).to receive(:log)
