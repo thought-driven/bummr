@@ -34,6 +34,14 @@ describe Bummr::Updater do
   end
 
   describe "#update_gem" do
+    # Ensure this directory exists to be added
+    before do
+      %x{mkdir -p vendor/cache}
+    end
+    after do
+      %x{rm -rf vendor/cache}
+    end
+
     def mock_log_commit_puts
       allow(updater).to receive(:log)
       allow(updater).to receive(:puts) # NOOP this function call
@@ -91,6 +99,7 @@ describe Bummr::Updater do
       it "commits" do
         commit_message =
           "Update #{gem[:name]} from #{gem[:installed]} to #{intermediate_version}"
+
         allow(updater).to receive(:system)
         allow(git).to receive(:add)
         mock_log_commit_puts
@@ -112,6 +121,7 @@ describe Bummr::Updater do
       it "commits" do
         commit_message =
           "Update #{gem[:name]} from #{gem[:installed]} to #{gem[:newest]}"
+
         allow(updater).to receive(:system)
         allow(git).to receive(:add)
         mock_log_commit_puts
