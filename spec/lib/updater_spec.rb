@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe Bummr::Updater do
+  before(:all) do
+    puts "\n<< Bummr::Updater >>\n"
+  end
+
   let(:outdated_gems) {
     [
       { name: "myGem", installed: "0.3.2", newest: "0.3.5" },

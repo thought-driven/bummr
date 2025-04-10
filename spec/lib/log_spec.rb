@@ -1,6 +1,10 @@
 require "spec_helper"
 
 describe Bummr::Log do
+  before(:all) do
+    puts "\n<< Bummr::Log >>\n"
+  end
+
   let(:object) { Object.new }
   let(:message) { "test message" }
 

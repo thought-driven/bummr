@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Bummr::Outdated do
+  before(:all) do
+    puts "\n<< Bummr::Outdated >>\n"
+  end
+
   # https://github.com/wireframe/gitx/blob/8e3cdc8b5d0c2082ed3daaf2fc054654b2e7a6c8/spec/gitx/executor_spec.rb#L9
   let(:stdoutput_legacy) {
     output = String.new

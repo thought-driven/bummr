@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe Bummr::Check do
+  before(:all) do
+    puts "\n<< Bummr::Check >>\n"
+  end
+
   let(:check) { Bummr::Check.instance }
 
   before(:each) do
