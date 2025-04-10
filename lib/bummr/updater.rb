@@ -43,7 +43,7 @@ module Bummr
     end
 
     def updated_version_for(gem)
-      string = `bundle list --paths | grep "#{gem[:name]}"`
+      string = %x{bundle list --paths | grep "#{gem[:name]}"}
       string.match(/#{gem[:name]}-(.*)$/)[1]
     end
   end

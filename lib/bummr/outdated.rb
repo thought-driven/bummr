@@ -44,7 +44,7 @@ module Bummr
     end
 
     def gemfile
-      @gemfile ||= `cat Gemfile`
+      @gemfile ||= %x{cat Gemfile}
     end
   end
 end

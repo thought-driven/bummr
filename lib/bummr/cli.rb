@@ -92,7 +92,7 @@ module Bummr
       puts "- Have a 'log' directory, where we can place logs"
       puts "- Have your build configured to fail fast (recommended)"
       puts "- Have locked any Gem version that you don't wish to update in your Gemfile"
-      puts "- It is recommended that you lock your versions of `ruby` and `rails` in your `Gemfile`"
+      puts "- It is recommended that you lock your versions of 'ruby' and 'rails' in your 'Gemfile'"
       puts "\n"
       puts "Your test command is: " + "'#{TEST_COMMAND}'".color(:yellow)
       puts "\n"
@@ -106,7 +106,7 @@ module Bummr
         puts "--#{key.color(:yellow)}: #{value}"
       end
 
-      puts "\nRun `#{"bummr help update".color(:yellow)}` for more information.\n\n"
+      puts "\nRun '#{"bummr help update".color(:yellow)}' for more information.\n\n"
     end
   end
 end

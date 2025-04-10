@@ -22,7 +22,7 @@ module Bummr
 
     # print only the commit subject line
     def message(sha)
-      `git log --pretty=format:'%s' -n 1 #{sha}`
+      %x{git log --pretty=format:'%s' -n 1 #{sha}}
     end
 
     private

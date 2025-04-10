@@ -9,12 +9,12 @@ describe Bummr::Log do
   let(:message) { "test message" }
 
   before do
-    `mkdir -p log`
+    %x{mkdir -p log}
     object.extend(Bummr::Log)
   end
 
   after do
-    `rm log/bummr.log`
+    %x{rm log/bummr.log}
   end
 
   describe "#log" do
@@ -29,7 +29,7 @@ describe Bummr::Log do
     it "outputs the message to log/bummr.log" do
       object.log message
 
-      result = `cat log/bummr.log`
+      result = %x{cat log/bummr.log}
 
       expect(result).to eq message + "\n"
     end
