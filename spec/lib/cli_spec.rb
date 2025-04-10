@@ -22,6 +22,7 @@ describe Bummr::CLI do
   describe "#update" do
     context "when user rejects moving forward" do
       it "does not attempt to move forward" do
+        expect(cli).to receive(:display_info) # NOOP this function call
         expect(cli).to receive(:yes?).and_return(false)
         expect(cli).not_to receive(:check)
 
