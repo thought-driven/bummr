@@ -31,10 +31,15 @@ describe Bummr::Outdated do
   }
 
   describe "#outdated_gems" do
+    def mock_gemfile
+      allow_any_instance_of(described_class).to receive(:gemfile).and_return gemfile
+      allow_any_instance_of(described_class).to receive(:puts) # NOOP this function call
+    end
+
     { bundler2: :stdoutput, bundler1: :stdoutput_legacy }.each_pair do |version, output|
       it "Correctly identifies outdated gems with bundler #{version}" do
         allow(Open3).to receive(:popen2).and_yield(nil, public_send(output))
-        allow_any_instance_of(described_class).to receive(:gemfile).and_return gemfile
+        mock_gemfile
 
         instance = Bummr::Outdated.instance
         result = instance.outdated_gems
@@ -61,7 +66,7 @@ describe Bummr::Outdated do
       it "lists all outdated dependencies by omitting the strict option" do
         allow(Open3).to receive(:popen2).with("bundle outdated --parseable").and_yield(nil, stdoutput)
 
-        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+        mock_gemfile
 
         results = Bummr::Outdated.instance.outdated_gems(all_gems: true)
         gem_names = results.map { |result| result[:name] }
@@ -72,7 +77,7 @@ describe Bummr::Outdated do
       it "defaults to false" do
         expect(Open3).to receive(:popen2).with("bundle outdated --parseable --strict").and_yield(nil, stdoutput)
 
-        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+        mock_gemfile
 
         results = Bummr::Outdated.instance.outdated_gems
         gem_names = results.map { |result| result[:name] }
@@ -93,7 +98,7 @@ describe Bummr::Outdated do
           .with("bundle outdated --parseable --strict --group development")
           .and_yield(nil, stdoutput_from_development_group)
 
-        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+        mock_gemfile
 
         results = Bummr::Outdated.instance.outdated_gems(group: :development)
         gem_names = results.map { |result| result[:name] }
@@ -106,7 +111,7 @@ describe Bummr::Outdated do
           .with("bundle outdated --parseable --strict")
           .and_yield(nil, stdoutput)
 
-        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+        mock_gemfile
 
         results = Bummr::Outdated.instance.outdated_gems
         gem_names = results.map { |result| result[:name] }
@@ -127,7 +132,7 @@ describe Bummr::Outdated do
           .with("bundle outdated --parseable --strict spring")
           .and_yield(nil, stdoutput_from_spring_gem)
 
-        allow(Bummr::Outdated.instance).to receive(:gemfile).and_return gemfile
+        mock_gemfile
 
         results = Bummr::Outdated.instance.outdated_gems(gem: :spring)
         gem_names = results.map { |result| result[:name] }
@@ -135,7 +140,7 @@ describe Bummr::Outdated do
         expect(gem_names).to match_array ['spring']
       end
     end
-  end
+  end # end #outdated_gems
 
   describe "#parse_gem_from" do
     it 'line' do

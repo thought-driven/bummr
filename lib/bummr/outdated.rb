@@ -17,7 +17,7 @@ module Bummr
 
       Open3.popen2("bundle outdated" + bundle_options) do |_std_in, std_out|
         while line = std_out.gets
-          puts line
+          puts line # TODO: remove this if possible (pointless for spec tests)
           gem = parse_gem_from(line)
 
           if gem && (options[:all_gems] || gemfile_contains(gem[:name]))
