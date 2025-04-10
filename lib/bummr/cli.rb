@@ -84,6 +84,7 @@ module Bummr
 
     private
 
+    # :nocov:
     def display_info
       puts "Bummr #{VERSION}"
       puts "To run Bummr, you must:"
@@ -108,5 +109,6 @@ module Bummr
 
       puts "\nRun '#{"bummr help update".color(:yellow)}' for more information.\n\n"
     end
+    # :nocov: end
   end
 end
