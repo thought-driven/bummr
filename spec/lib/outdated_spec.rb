@@ -32,8 +32,8 @@ describe Bummr::Outdated do
 
   describe "#outdated_gems" do
     { bundler2: :stdoutput, bundler1: :stdoutput_legacy }.each_pair do |version, output|
-    it "Correctly identifies outdated gems with bundler #{version}" do
-      allow(Open3).to receive(:popen2).and_yield(nil, public_send(output))
+      it "Correctly identifies outdated gems with bundler #{version}" do
+        allow(Open3).to receive(:popen2).and_yield(nil, public_send(output))
         allow_any_instance_of(described_class).to receive(:gemfile).and_return gemfile
 
         instance = Bummr::Outdated.instance
