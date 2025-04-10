@@ -27,6 +27,8 @@ describe Bummr::Log do
     end
 
     it "outputs the message to log/bummr.log" do
+      allow(object).to receive(:puts) # NOOP this function call
+
       object.log message
 
       result = %x{cat log/bummr.log}
