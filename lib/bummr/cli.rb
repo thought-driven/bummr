@@ -79,7 +79,7 @@ module Bummr
 
     desc "remove_commit", "Remove a commit from the history"
     def remove_commit(sha)
-      Bummr::Remover.instance.remove_commit(sha)
+      puts Bummr::Remover.instance.remove_commit(sha)
     end
 
     private

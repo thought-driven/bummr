@@ -20,7 +20,7 @@ module Bummr
         "    - Commit the changes.\n" +
         "    - Run `bummr update` again.\n\n"
 
-      puts message.color(:yellow)
+      message.color(:yellow)
     end
   end
 end
