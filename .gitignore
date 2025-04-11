@@ -14,3 +14,4 @@
 *.swp
 mkmf.log
 bummr-*.gem
+.DS_Store
