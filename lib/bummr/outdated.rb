@@ -43,8 +43,11 @@ module Bummr
       /gem ['"]#{gem_name}['"]/.match gemfile
     end
 
+    # :nocov: no need to test whether linux "cat Gemfile" works
     def gemfile
       @gemfile ||= %x{cat Gemfile}
     end
+    # :nocov: end
+
   end
 end

@@ -8,10 +8,12 @@ module Bummr
     include Bummr::Prompt
     include Bummr::Scm
 
+    # :nocov: internals are tested by spec/check_spec.rb
     desc "check", "Run automated checks to see if bummr can be run"
     def check(fullcheck=true)
       Bummr::Check.instance.check(fullcheck)
     end
+    # :nocov: end
 
     desc "update",
       "Update outdated gems, run tests, bisect if tests fail\n\n" +
@@ -77,14 +79,16 @@ module Bummr
       end
     end
 
+    # :nocov: internals are tested by spec/lib/remover_spec.rb
     desc "remove_commit", "Remove a commit from the history"
     def remove_commit(sha)
       puts Bummr::Remover.instance.remove_commit(sha)
     end
+    # :nocov: end
 
     private
 
-    # :nocov:
+    # :nocov: This is stubbed out during actual testing because its boilerplate information for the user
     def display_info
       puts "Bummr #{VERSION}"
       puts "To run Bummr, you must:"
