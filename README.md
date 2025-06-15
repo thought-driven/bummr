@@ -9,7 +9,7 @@ to fail.
 Gems should be updated in [separate commits](https://thoughtbot.com/blog/keep-your-gems-up-to-date).
 
 The bummr gem allows you to automatically update all gems which pass your
-build in separate commits, and logs the name and sha of each gem that fails.
+build in separate commits, and logs the name and sha of any gem update that fails your build.
 
 Bummr assumes you have good test coverage and follow a [pull-request workflow].
 
